@@ -1,6 +1,27 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import { GeistProvider, CssBaseline, User } from '@geist-ui/react';
+import '../styles/globals.css';
+import { AppProps } from 'next/app';
+import { UserProvider } from '../components/UserProvider';
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fab, faFacebook, faGithub, faInstagram, faLinkedin, faMedium } from '@fortawesome/free-brands-svg-icons';
+library.add(fab as any, faInstagram as any, faLinkedin as any, faFacebook as any, faMedium as any, faGithub as any);
+
+import { config } from '@fortawesome/fontawesome-svg-core';
+import '@fortawesome/fontawesome-svg-core/styles.css'; // Import the CSS
+config.autoAddCss = false; // Tell Font Awesome to skip adding the CSS automatically since it's being imported above
+
+function MyApp({ Component, pageProps }: AppProps): React.ReactElement {
+  return (
+    <GeistProvider>
+      <UserProvider>
+        <div>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </div>
+      </UserProvider>
+    </GeistProvider>
+  );
 }
+
+export default MyApp;
