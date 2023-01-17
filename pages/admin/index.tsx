@@ -2,6 +2,7 @@ import { useActiveUser, UserCurrentStatus, UserProvider } from '../../components
 import { SetStateAction, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import Image from 'next/image';
 
 function Home(): JSX.Element {
   const { user, status } = useActiveUser();
@@ -117,7 +118,7 @@ function Home(): JSX.Element {
             <a href={`/auth/logout?r=${process.browser ? window.location.pathname : `${router.basePath}${router.asPath}`.replace(/\/$/, '')}`}>
               <div className = "navButton"><div className = "navText">Logout</div></div>
             </a>
-            <img src="https://tamudatathon.com/static/img/logos/main-22.webp"></img>
+            <Image alt="TD Logo" src="https://tamudatathon.com/static/img/logos/main-22.webp"></Image>
           </div>
         </div>
 
