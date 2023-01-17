@@ -52,7 +52,7 @@ function Home(): JSX.Element {
             <a href={`/auth/logout?r=${process.browser ? window.location.pathname : `${router.basePath}${router.asPath}`.replace(/\/$/, '')}`}>
               <div className = "navButton"><div className = "navText">Logout</div></div>
             </a>
-            <Image alt="TD Logo" src="https://tamudatathon.com/static/img/logos/main-22.webp"></Image>
+            <Image alt="TD Logo" width={300} height={300} src="https://tamudatathon.com/static/img/logos/main-22.webp"></Image>
           </div>
         </div>
 

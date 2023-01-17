@@ -1,12 +1,12 @@
 import { authenticatedRoute } from '../../libs/middleware'
-import { connectToDatabase } from '../../utils/db';
+import { MongoDBSingleton } from '../../utils/db';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import nextConnect from 'next-connect'
 
 const handler = nextConnect();
 handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, tdUser) => {
   try {
-    const { db } = await connectToDatabase();
+    const db = await MongoDBSingleton.getInstance();
     const data = req.body;
     const result = await db.collection('applications').updateOne(
         { email: tdUser.email },
@@ -15,7 +15,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
     );
     res.status(201).json({
       message: 'Document created successfully',
-      result: result[0],
+      result: result,
     });
   } catch (error) {
     console.log(error);

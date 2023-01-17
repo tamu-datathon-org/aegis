@@ -16,6 +16,9 @@ const nextConfig = {
     MONGODB_URI: process.env.MONGODB_URI
   },
   basePath: process.env.BASE_PATH || defaultBasePath,
+  images: {
+    domains: ['tamudatathon.com'],
+  },
   async rewrites() {
     return {
       fallback: [

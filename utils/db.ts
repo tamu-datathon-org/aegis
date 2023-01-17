@@ -1,45 +1,24 @@
 //TODO: Create a singleton for the connection so that we aren't using global.mongo and get an "error"
-import { MongoClient } from 'mongodb';
+import { MongoClient, Db } from 'mongodb';
 
-const { MONGODB_URI, MONGODB_DB } = process.env;
+const MONGODB_URI = process.env.MONGODB_URI || "";
+const MONGODB_DB = process.env.MONGODB_DB;
 
-if (!MONGODB_URI) {
+if (MONGODB_URI === "") {
   throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
 }
 
-if (!MONGODB_DB) {
+if (MONGODB_DB === "") {
   throw new Error('Please define the MONGODB_DB environment variable inside .env.local');
 }
 
-/**
- * Global is used here to maintain a cached connection across hot reloads
- * in development. This prevents connections growing exponentially
- * during API Route usage.
- */
-let cached = global.mongo;
-
-if (!cached) {
-  cached = global.mongo = { conn: null, promise: null };
+export class MongoDBSingleton {
+  private static instance: Promise<MongoClient>;
+  public static async getInstance(): Promise<Db> {
+    if (!MongoDBSingleton.instance) {
+      MongoDBSingleton.instance = MongoClient.connect(MONGODB_URI);
+    }
+    const client = await MongoDBSingleton.instance;
+    return client.db(MONGODB_DB);
 }
-
-export async function connectToDatabase() {
-  if (cached.conn) {
-    return cached.conn;
-  }
-
-  if (!cached.promise) {
-    const opts = {
-      useNewUrlParser: true,
-      useUnifiedTopology: true
-    };
-
-    cached.promise = MongoClient.connect(MONGODB_URI, opts).then((client) => {
-      return {
-        client,
-        db: client.db(MONGODB_DB)
-      };
-    });
-  }
-  cached.conn = await cached.promise;
-  return cached.conn;
 }
