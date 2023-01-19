@@ -8,6 +8,7 @@ import {
 } from "react-bootstrap";
 import { useActiveUser, UserCurrentStatus } from "../UserProvider";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 /**
  * Nav component
@@ -32,19 +33,19 @@ export const Navbar: React.FC = () => {
     <UI.Navbar expand="sm">
       <UI.NavbarSpan>
         <ReactNavbar.Toggle aria-controls="navbar-responsive-dropdown" />
-        <a href = "/">
+        {/* <Link href = '/' as="/"> */}
           <UI.NavbarLogo
             src="/events/static/img/logos/main.svg"
             className="d-none d-sm-block" // Hide icon below sm screens.
           ></UI.NavbarLogo>
-        </a>
+        {/* </Link> */}
       </UI.NavbarSpan>
       <ReactNavbar.Collapse
         id="navbar-responsive-dropdown"
         className="justify-content-center"
       >
         <ReactNav>
-          {/* <UI.NavLink href="/">Home</UI.NavLink> */}
+          <UI.NavLink href="/">Home</UI.NavLink>
           <UI.NavLink href="/apply">Dashboard</UI.NavLink>
           <UI.NavLink href="/apply/application">Application</UI.NavLink>
           {user?.isAdmin ? ( <UI.NavLink href="/apply/admin">Admin</UI.NavLink> ) : null}
