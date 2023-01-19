@@ -19,6 +19,9 @@ const nextConfig = {
   images: {
     domains: ['tamudatathon.com'],
   },
+  compiler: {
+    styledComponents: true
+  },
   async rewrites() {
     return {
       fallback: [

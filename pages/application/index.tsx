@@ -1,41 +1,41 @@
 import { useActiveUser, UserCurrentStatus, UserProvider } from '../../components/UserProvider';
-import { SetStateAction, useEffect, useState } from 'react';
-import Link from 'next/link';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import allSchools from './schools.json';
-import Image from 'next/image';
+import { useToasts } from '@geist-ui/react';
+import { Navbar } from '@/components/Navbar';
 
 function Home(): JSX.Element {
   const router = useRouter();
   const [showResults, setShowResults] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const { user, status } = useActiveUser();
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [school, setSchool] = useState("");
-  const [major, setMajor] = useState("");
-  const [classification, setClassification] = useState("");
-  const [anticipatedGradYear, setAnticipatedgradYear] = useState("");
-  const [gender, setGender] = useState("");
-  const [selfDescribeAns, setSelfDescribeAns] = useState("");
-  const [hackathonsAttended, setHackathonsAttended] = useState("");
-  const [hasTeam, setHasTeam] = useState("");
-  const [eventSource, setEventSource] = useState("");
-  const [shirtSize, setShirtSize] = useState("");
-  const [address, setAddress] = useState("");
-  const [referenceLinks, setReferenceLinks] = useState("");
-  const [programmingJoke, setProgrammingJoke] = useState("");
-  const [unlimitedResourcesBuild, setUnlimitedResourcesBuild] = useState("");
-  const [hiddenTalent, setHiddenTalent] = useState("");
-  const [dietaryRestrictions, setDietaryRestrictions] = useState("");
-  const [extraInfo, setExtraInfo] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [school, setSchool] = useState('');
+  const [major, setMajor] = useState('');
+  const [classification, setClassification] = useState('');
+  const [anticipatedGradYear, setAnticipatedgradYear] = useState('');
+  const [gender, setGender] = useState('');
+  const [selfDescribeAns, setSelfDescribeAns] = useState('');
+  const [hackathonsAttended, setHackathonsAttended] = useState('');
+  const [hasTeam, setHasTeam] = useState('');
+  const [eventSource, setEventSource] = useState('');
+  const [shirtSize, setShirtSize] = useState('');
+  const [address, setAddress] = useState('');
+  const [referenceLinks, setReferenceLinks] = useState('');
+  const [programmingJoke, setProgrammingJoke] = useState('');
+  const [unlimitedResourcesBuild, setUnlimitedResourcesBuild] = useState('');
+  const [hiddenTalent, setHiddenTalent] = useState('');
+  const [dietaryRestrictions, setDietaryRestrictions] = useState('');
+  const [extraInfo, setExtraInfo] = useState('');
 
-
+  const [, setToast] = useToasts();
 
   useEffect(() => {
     if (status == UserCurrentStatus.LoggedOut) {
-      (window as any).location = "/auth/login?r=/apply";
+      (window as any).location = '/auth/login?r=/apply';
     }
   }, [status])
     
@@ -130,11 +130,11 @@ function Home(): JSX.Element {
     fetchApplication();
   }, [])
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, setToast: any) => {
     event.preventDefault();
     try {
       const response = await axios.post('/apply/api/updateApplication', {
-        appStatus: "Submitted",
+        appStatus: 'Submitted',
         firstName,
         lastName,
         school,
@@ -156,9 +156,10 @@ function Home(): JSX.Element {
         extraInfo
       });
       if(response.status == 201) {
-        router.push("/");
+        setToast({ text: 'Application received!', type: 'success', delay: 3000 });
       }
     } catch (error) {
+      setToast({ text: 'Failed to upload application.', type: 'error', delay: 3000 });
       console.error(error);
     }
   };
@@ -168,90 +169,89 @@ function Home(): JSX.Element {
 
   return (
     <>
-      <div className = "horizontal">
-        <div className="relativeContainer">
-          <div className = "navBanner">
-            <h1 className = "navText">TAMU Datathon 2023 Applications</h1>
-            <Link href="/"><div className = "navButton"><div className = "navText">Dashboard</div></div></Link>
-            <Link href="/application"><div className = "navButtonCurrDir"><div className = "navText">Application</div></div></Link>
-            {!user?.isAdmin ? (
-              <></>
-              ) : (
-                <Link href="/admin"><div className = "navButton"><div className = "navText">Admin</div></div></Link>
-              )}
-            <a href={`/auth/logout?r=${process.browser ? window.location.pathname : `${router.basePath}${router.asPath}`.replace(/\/$/, '')}`}>
-              <div className = "navButton"><div className = "navText">Logout</div></div>
-            </a>
-            <Image alt="TD Logo" width={300} height={300} src="https://tamudatathon.com/static/img/logos/main-22.webp"></Image>
-          </div>
-        </div>
-
-        <div className = "mainContent">
-          <form onSubmit={handleSubmit}>
+      <Navbar/>
+        <div className = 'mainContent'>
           <h1>APPLICATION</h1>
-            <div className = "vertical">
-              <label className = "requiredField">First name:</label>
-              <input type="text" value={firstName} onChange={event => setFirstName(event.target.value)}/>
+          <form onSubmit={(event) => handleSubmit(event, setToast)}>
+            <div className = 'vertical' style={{alignItems: 'center'}}>
+              <div className='input-wrapper'>
+                <label htmlFor='firstName' className = 'requiredField'>First name:</label>
+                <input type='text' value={firstName} id='firstName' onChange={event => setFirstName(event.target.value)}/>
+              </div>
 
-              <label className = "requiredField">Last name:</label>
-              <input type="text" value={lastName} onChange={event => setLastName(event.target.value)}/>
+              <div className='input-wrapper'>
+                <label htmlFor='lastName' className = 'requiredField'>Last name:</label>
+                <input type='text' value={lastName} id='lastName' onChange={event => setLastName(event.target.value)}/>
+              </div>
 
-              <label className = "requiredField"> What school do you go to? </label>
-              <div className="helperText">Currently selected school: {school}</div>
-              <input type="text" value={searchQuery} onChange={event => {
-              setSearchQuery(event.target.value);
-              setShowResults(true);
-              }} onBlur={() => setShowResults(false)} onFocus={() => setShowResults(true)} placeholder="Search for a school" />
-              {showResults && 
-                <ul>
-                  {visibleSchools.map((currSchool, index) => (
-                    <li className = "suggestion-item" key={index} onMouseDown={() => {setSchool(currSchool.schoolName); setSearchQuery(currSchool.schoolName)}}>
-                        {currSchool.schoolName}
-                    </li>
-                  ))}
-                </ul>
-              }
+              <div className='input-wrapper'>
+                <label htmlFor='searchQuery' className = 'requiredField'> What school do you go to? </label>
+                <div className='helperText'>Currently selected school: {school}</div>
+                <input type='text' id='searchQuery' value={searchQuery} onChange={event => {
+                setSearchQuery(event.target.value);
+                setShowResults(true);
+                }} onBlur={() => setShowResults(false)} onFocus={() => setShowResults(true)} placeholder='Search for a school' />
+                {showResults && 
+                  <ul>
+                    {visibleSchools.map((currSchool, index) => (
+                      <li className = 'suggestion-item' key={index} onMouseDown={() => {setSchool(currSchool.schoolName); setSearchQuery(currSchool.schoolName)}}>
+                          {currSchool.schoolName}
+                      </li>
+                    ))}
+                  </ul>
+                }
+              </div>
 
-              <label className = "requiredField"> What's your major? </label>
-              <input type = "text" value={major} onChange={event => setMajor(event.target.value)}/>
+              <div className='input-wrapper'>
+                <label htmlFor='major' className = 'requiredField'> What's your major? </label>
+                <input type='text' value={major} id='major' onChange={event => setMajor(event.target.value)}/>
+              </div>
 
-              <label className = "requiredField"> What classification are you? </label>
-              <select value = {classification} onChange={event => setClassification(event.target.value)}>
-                <option value="">---------</option>
-                <option value="Fr">Freshman</option>
-                <option value="So">Sophomore</option>
-                <option value="Jr">Junior</option>
-                <option value="Sr">Senior</option>
-                <option value="Ma">Master's Student</option>
-                <option value="PhD">PhD Student</option>
-                <option value="O">Other</option>
-              </select>
+              <div className='input-wrapper'>
+                <label htmlFor='classification' className = 'requiredField'> What classification are you? </label>
+                <select value = {classification} onChange={event => setClassification(event.target.value)}>
+                  <option value=''>---------</option>
+                  <option value='Fr'>Freshman</option>
+                  <option value='So'>Sophomore</option>
+                  <option value='Jr'>Junior</option>
+                  <option value='Sr'>Senior</option>
+                  <option value='Ma'>Master's Student</option>
+                  <option value='PhD'>PhD Student</option>
+                  <option value='O'>Other</option>
+                </select>
+              </div>
 
               {/* TODO: Determine if 2028 is an actual graduation year LOL */}
-              <label className = "requiredField"> What is your anticipated graduation year?</label>
-              <select value = {anticipatedGradYear} onChange={event => setAnticipatedgradYear(event.target.value)}>
-                <option value="">---------</option>
-                <option value="2023">2023</option>
-                <option value="2024">2024</option>
-                <option value="2025">2025</option>
-                <option value="2026">2026</option>
-                <option value="2027">2027</option>
-              </select>
+              <div className='input-wrapper'>
+                <label htmlFor='anticipatedGradYear' className = 'requiredField'> What is your anticipated graduation year?</label>
+                <select value = {anticipatedGradYear} onChange={event => setAnticipatedgradYear(event.target.value)}>
+                  <option value=''>---------</option>
+                  <option value='2023'>2023</option>
+                  <option value='2024'>2024</option>
+                  <option value='2025'>2025</option>
+                  <option value='2026'>2026</option>
+                  <option value='2027'>2027</option>
+                </select>
+              </div>
 
-              <label className = "requiredField"> What's your gender? </label>
-              <select value = {gender} onChange={event => setGender(event.target.value)}>
-                <option value="">---------</option>
-                <option value="NA">Prefer not to answer</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-                <option value="NB">Non-binary</option>
-                <option value="X">Prefer to self-describe</option>
-              </select>
+              <div className='input-wrapper'>
+                <label className = 'requiredField'> What's your gender? </label>
+                <select value = {gender} onChange={event => setGender(event.target.value)}>
+                  <option value=''>---------</option>
+                  <option value='NA'>Prefer not to answer</option>
+                  <option value='M'>Male</option>
+                  <option value='F'>Female</option>
+                  <option value='NB'>Non-binary</option>
+                  <option value='X'>Prefer to self-describe</option>
+                </select>
+              </div>
 
-              {gender === "X" ? (
+              {gender === 'X' ? (
                 <>
-                  <label> Please self-describe </label>
-                  <input type = "text" value={selfDescribeAns} onChange={event => setSelfDescribeAns(event.target.value)} placeholder="Please self-describe" />
+                  <div className='input-wrapper'>
+                    <label> Please self-describe </label>
+                    <input type = 'text' value={selfDescribeAns} onChange={event => setSelfDescribeAns(event.target.value)} placeholder='Please self-describe' />
+                  </div>
                 </>
               ) : (
                 <></>
@@ -259,86 +259,109 @@ function Home(): JSX.Element {
 
               {/* TODO: Add what race(s) do you identify with? */}
 
-              <label className = "requiredField"> How many hackathons have you attended? </label>
-              <select value = {hackathonsAttended} onChange={event => setHackathonsAttended(event.target.value)}>
-                <option value="">---------</option>
-                <option value="0">This will be my first!</option>
-                <option value="1-3">1-3</option>
-                <option value="4-7">4-7</option>
-                <option value="8-10">8-10</option>
-                <option value="10+">10+</option>
-              </select>
+              <div className='input-wrapper'>
+                <label className = 'requiredField'> How many hackathons have you attended? </label>
+                <select value = {hackathonsAttended} onChange={event => setHackathonsAttended(event.target.value)}>
+                  <option value=''>---------</option>
+                  <option value='0'>This will be my first!</option>
+                  <option value='1-3'>1-3</option>
+                  <option value='4-7'>4-7</option>
+                  <option value='8-10'>8-10</option>
+                  <option value='10+'>10+</option>
+                </select>
+              </div>
 
-              {/* TODO: Add "What technical skills do you have?" */}
-              <label className = "requiredField"> Do you have a team yet? </label>
-              <select value = {hasTeam} onChange={event => setHasTeam(event.target.value)}>
-                <option value="">---------</option>
-                <option value="No">I do have a team</option>
-                <option value="Yes">I do not have a team</option>
-              </select>
+              {/* TODO: Add 'What technical skills do you have?' */}
+              <div className='input-wrapper'>
+                <label className = 'requiredField'> Do you have a team yet? </label>
+                <select value = {hasTeam} onChange={event => setHasTeam(event.target.value)}>
+                  <option value=''>---------</option>
+                  <option value='No'>I do have a team</option>
+                  <option value='Yes'>I do not have a team</option>
+                </select>
+              </div>
 
               {/* TODO: Find out if we use the TAMU Engineering newsletter lol */}
-              <label className = "requiredField"> How did you hear about TAMU Datathon? </label>
-              <select value = {eventSource} onChange={event => setEventSource(event.target.value)}>
-                <option value="">---------</option>
-                <option value="Friend">From a friend</option>
-                <option value="Yard Sign">Yard sign</option>
-                <option value="Social Media">Social media</option>
-                <option value="Student Orgs">Through another student org</option>
-                <option value="TD Organizer">From a TAMU Datathon organizer</option>
-                <option value="ENGR Newsletter">From the TAMU Engineering Newsletter</option>
-                <option value="MLH">Major League Hacking (MLH)</option>
-                <option value="Attended Before">I've attended TAMU Datathon before</option>
-              </select>
+              <div className='input-wrapper'>
+                <label className = 'requiredField'> How did you hear about TAMU Datathon? </label>
+                <select value = {eventSource} onChange={event => setEventSource(event.target.value)}>
+                  <option value=''>---------</option>
+                  <option value='Friend'>From a friend</option>
+                  <option value='Yard Sign'>Yard sign</option>
+                  <option value='Social Media'>Social media</option>
+                  <option value='Student Orgs'>Through another student org</option>
+                  <option value='TD Organizer'>From a TAMU Datathon organizer</option>
+                  <option value='ENGR Newsletter'>From the TAMU Engineering Newsletter</option>
+                  <option value='MLH'>Major League Hacking (MLH)</option>
+                  <option value='Attended Before'>I've attended TAMU Datathon before</option>
+                </select>
+              </div>
+              
+              <div className='input-wrapper'>
+                <label className = 'requiredField'>What size shirt do you wear?</label>
+                <select value = {shirtSize} onChange={event => setShirtSize(event.target.value)}>
+                  <option value=''>---------</option>
+                  <option value='WXXS'>Women's XXS</option>
+                  <option value='WXS'>Women's XS</option>
+                  <option value='WS'>Women's S</option>
+                  <option value='WM'>Women's M</option>
+                  <option value='WL'>Women's L</option>
+                  <option value='WXL'>Women's XL</option>
+                  <option value='WXXL'>Women's XXL</option>
+                  <option value='XXS'>Unisex XXS</option>
+                  <option value='XS'>Unisex XS</option>
+                  <option value='S'>Unisex S</option>
+                  <option value='M'>Unisex M</option>
+                  <option value='L'>Unisex L</option>
+                  <option value='XL'>Unisex XL</option>
+                  <option value='XXL'>Unisex XXL</option>
+                </select>
+              </div>
 
-              <label className = "requiredField">What size shirt do you wear?</label>
-              <select value = {shirtSize} onChange={event => setShirtSize(event.target.value)}>
-                <option value="">---------</option>
-                <option value="WXXS">Women's XXS</option>
-                <option value="WXS">Women's XS</option>
-                <option value="WS">Women's S</option>
-                <option value="WM">Women's M</option>
-                <option value="WL">Women's L</option>
-                <option value="WXL">Women's XL</option>
-                <option value="WXXL">Women's XXL</option>
-                <option value="XXS">Unisex XXS</option>
-                <option value="XS">Unisex XS</option>
-                <option value="S">Unisex S</option>
-                <option value="M">Unisex M</option>
-                <option value="L">Unisex L</option>
-                <option value="XL">Unisex XL</option>
-                <option value="XXL">Unisex XXL</option>
-              </select>
-
-              <label>Address:</label>
-              <input type = "text" value={address} onChange={event => setAddress(event.target.value)} placeholder="Enter a location" />
-              <div className="helperText">You will not receive swag and prizes without an address.</div>
+              <div className='input-wrapper'>
+                <label htmlFor='address'>Address:</label>
+                <input type = 'text' id='address' value={address} onChange={event => setAddress(event.target.value)} placeholder='Enter a location' />
+                <div className='helperText'>You will not receive swag and prizes without an address.</div>
+              </div>
 
               {/* TODO: Upload your resume and use S3 AmazonAWS (if budget approved LMAO)*/}
-              <label>Point us to anything you'd like us to look at while considering your application:</label>
-              <input type = "text" value={referenceLinks} onChange={event => setReferenceLinks(event.target.value)} placeholder="ex. GitHub, Devpost, personal website, LinkedIn, etc." />
 
-              <label className = "requiredField"> Tell us your best programming joke. </label>
-              <textarea value={programmingJoke} onChange={event => setProgrammingJoke(event.target.value)}/>
-              
-              <label className = "requiredField"> What is the one thing you'd build if you had unlimited resources? </label>
-              <textarea value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
+              <div className='input-wrapper'>
+                <label htmlFor='reflinks'>Point us to anything you'd like us to look at while considering your application:</label>
+                <input type = 'text' id ='reflinks' value={referenceLinks} onChange={event => setReferenceLinks(event.target.value)} placeholder='ex. GitHub, Devpost, personal website, LinkedIn, etc.' />
+              </div>
 
-              <label className = "requiredField"> What's your hidden talent? </label>
-              <textarea value={hiddenTalent} onChange={event => setHiddenTalent(event.target.value)}/>
+              <div className='input-wrapper'>
+                <label htmlFor='programmingJoke' className = 'requiredField'> Tell us your best programming joke. </label>
+                <textarea id='programmingJoke' value={programmingJoke} onChange={event => setProgrammingJoke(event.target.value)}/>
+              </div>
 
-              <label>Do you require any special accommodations at the event? Please list all dietary restrictions here.</label>
-              <textarea value={dietaryRestrictions} onChange={event => setDietaryRestrictions(event.target.value)}/>
+              <div className='input-wrapper'>
+                <label htmlFor='unlimitedResourcesBuild' className = 'requiredField'> What is the one thing you'd build if you had unlimited resources? </label>
+                <textarea id='unlimitedResourcesBuild' value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
+              </div>
 
-              <label>Anything else you would like us to know?</label>
-              <textarea value={extraInfo} onChange={event => setExtraInfo(event.target.value)}/>
+              <div className='input-wrapper'>
+                <label htmlFor='hiddenTalent' className = 'requiredField'> What's your hidden talent? </label>
+                <textarea id='hiddenTalent' value={hiddenTalent} onChange={event => setHiddenTalent(event.target.value)}/>
+              </div>
 
-              <button type="submit">Submit application</button>
+              <div className='input-wrapper'>
+                <label htmlFor='dietaryRestrictions'>Do you require any special accommodations at the event? Please list all dietary restrictions here.</label>
+                <textarea id='dietaryRestrictions' value={dietaryRestrictions} onChange={event => setDietaryRestrictions(event.target.value)}/>
+              </div>
+
+              <div className='input-wrapper'>
+                <label htmlFor='extraInfo'>Anything else you would like us to know?</label>
+                <textarea id='extraInfo' value={extraInfo} onChange={event => setExtraInfo(event.target.value)}/>
+              </div>
+
+              <div className='input-wrapper'>
+                <button className='appButton border-gradient border-gradient-purple' type='submit'>Submit application</button>
+              </div>
             </div>
           </form>
         </div>
-
-      </div>
     </>
   );
 

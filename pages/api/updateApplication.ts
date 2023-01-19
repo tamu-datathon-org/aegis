@@ -13,6 +13,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
         { $set: data },
         { upsert: true}
     );
+    
     res.status(201).json({
       message: 'Document created successfully',
       result: result,

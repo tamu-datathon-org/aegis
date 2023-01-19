@@ -3,12 +3,13 @@ import { SetStateAction, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { Navbar } from '../../components/Navbar';
 
 function Home(): JSX.Element {
   const { user, status } = useActiveUser();
   const router = useRouter();
   const [applicants, setApplicants] = useState<any[]>([]);
-  const [selected, setSelected] = useState("stats")
+  const [selected, setSelected] = useState("")
 
   useEffect(() => {
     if (status == UserCurrentStatus.LoggedOut) {
@@ -41,12 +42,6 @@ function Home(): JSX.Element {
     getStats();
   }, [])
 
-  if(!user?.isAdmin) {
-    return(
-      <div>You are not permitted to view this page.</div>
-    )
-  }
-
   const Stats = () => {
     return (
       <div>Stats</div>
@@ -66,8 +61,8 @@ function Home(): JSX.Element {
     
     return (
       <div>
-        <input value = {searchTerm} type="text" placeholder="Search by name" onChange={handleSearch} />
-        <button onClick={() => setSearchTerm('')}>Clear</button>
+        <input value = {searchTerm} type="text" placeholder="Search by name" onChange={handleSearch} style={{marginBottom: "10px", padding: "0px", width: "350px"}} />
+        {/* <button onClick={() => setSearchTerm('')}>Clear</button> */}
         <table>
           <tr>
             <th>Name</th>
@@ -104,38 +99,21 @@ function Home(): JSX.Element {
 
   return (
     <>
-      <div className = "horizontal">
-        <div className="relativeContainer">
-          <div className = "navBanner">
-            <h1 className = "navText">TAMU Datathon 2023 Applications</h1>
-            <Link href="/"><div className = "navButton"><div className = "navText">Dashboard</div></div></Link>
-            {/* <Link href="/application"><div className = "navButton"><div className = "navText">Application</div></div></Link> */}
-            {!user?.isAdmin ? (
-              <></>
-              ) : (
-                <Link href="/admin"><div className = "navButtonCurrDir"><div className = "navText">Admin</div></div></Link>
-              )}
-            <a href={`/auth/logout?r=${process.browser ? window.location.pathname : `${router.basePath}${router.asPath}`.replace(/\/$/, '')}`}>
-              <div className = "navButton"><div className = "navText">Logout</div></div>
-            </a>
-            <Image alt="TD Logo" width={300} height={300} src="https://tamudatathon.com/static/img/logos/main-22.webp"></Image>
-          </div>
-        </div>
+      <Navbar/>
+      <div className = "mainContent">
+        <h1>ADMIN</h1>
+        <div className="border-gradient border-gradient-purple" style={{alignItems: "center", height: "400px", padding: "10px"}}>
 
-        <div className = "mainContent">
-          <h1>ADMIN</h1>
-
-          <div>
+            <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginBottom: "50px"}}>
             <button onClick={() => handleClick("stats")}>Stats</button>
             <button onClick={() => handleClick("applicants")}>Applicants</button>
             <button onClick={() => handleClick("settings")}>Settings</button>
+            </div>
 
             {selected === "stats" && <Stats />}
             {selected === "applicants" && <Applicants />}
             {selected === "settings" && <Settings />}
-          </div>
         </div>
-
       </div>
     </>
   );

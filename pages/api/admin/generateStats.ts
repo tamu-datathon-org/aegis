@@ -10,13 +10,13 @@ handler.get(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, t
       const db = await MongoDBSingleton.getInstance();
       const result = await db.collection('applications').distinct('name');
       if(result != null)
-          res.status(200).json( result );
+        res.status(200).json( result );
       else {
-          res.status(404).json({ message: 'No people with firstName "bob" were found.' });
+        res.status(404).json({ message: 'No people with firstName "bob" were found.' });
       }
     } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: 'Error fetching people', error });
+      console.log(error);
+      res.status(500).json({ message: 'Error fetching people', error });
     }
   } else {
     res.status(401).json({ message: 'Unauthorized access: You are not an admin.' });
