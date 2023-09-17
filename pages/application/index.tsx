@@ -188,6 +188,8 @@ function Home(): JSX.Element {
                 <label htmlFor='searchQuery' className = 'requiredField'> What school do you go to? </label>
                 <div className='helperText'>Currently selected school: {school}</div>
                 <input type='text' id='searchQuery' value={searchQuery} onChange={event => {
+                // removes autocomplete locally (so it doesn't block our search results)
+                event.target.setAttribute('autocomplete', 'off');
                 setSearchQuery(event.target.value);
                 setShowResults(true);
                 }} onBlur={() => setShowResults(false)} onFocus={() => setShowResults(true)} placeholder='Search for a school' />

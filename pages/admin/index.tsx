@@ -81,6 +81,7 @@ function Home(): JSX.Element {
               <td>{applicant.classification}</td>
               <td>{applicant.appStatus}</td>
             </tr>
+            
           ))}
         </table>
       </div>
