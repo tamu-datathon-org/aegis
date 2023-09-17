@@ -172,7 +172,7 @@ function Home(): JSX.Element {
       <Navbar/>
         <div className = 'mainContent'>
           <h1>APPLICATION</h1>
-          <form onSubmit={(event) => handleSubmit(event, setToast)}>
+          <form className="boxShadowContainer" onSubmit={(event) => handleSubmit(event, setToast)}>
             <div className = 'vertical' style={{alignItems: 'center'}}>
               <div className='input-wrapper'>
                 <label htmlFor='firstName' className = 'requiredField'>First name:</label>
@@ -359,7 +359,7 @@ function Home(): JSX.Element {
               </div>
 
               <div className='input-wrapper'>
-                <button className='appButton border-gradient border-gradient-purple' type='submit'>Submit application</button>
+                <button className='appButton' type='submit'>Submit application</button>
               </div>
             </div>
           </form>

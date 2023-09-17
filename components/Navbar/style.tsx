@@ -7,8 +7,8 @@ import {
 } from "react-bootstrap";
 
 export const Navbar = styled(ReactNavbar)`
-  // border-bottom: solid 1px #cfcfcf;
-  background: #1e1f26; //new
+  border-bottom: solid 1px #cfcfcf;
+  background: #f0f0f0;
 `;
 
 export const NavbarLogo = styled.img`

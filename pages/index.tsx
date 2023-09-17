@@ -42,7 +42,7 @@ function Home(): JSX.Element {
     <div className = "mainContent">
       <h1>DASHBOARD</h1>
 
-      <div className="border-gradient border-gradient-purple vertical" style={{alignItems: "center", height: "400px"}}>
+      <div className="vertical boxShadowContainer" style={{alignItems: "center", height: "400px"}}>
         <div className="dashboardText">APPLICATION STATUS:</div>
         <div className="dashStatus">{appStatus.toUpperCase()}</div>
         <button className="editButton"><Link href="/application" className="dashboardText">Edit your application</Link></button>

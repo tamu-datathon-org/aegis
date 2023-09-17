@@ -30,7 +30,7 @@ export const Navbar: React.FC = () => {
   );
 
   return (
-    <UI.Navbar expand="sm" className="navbar-dark">
+    <UI.Navbar expand="sm">
       <UI.NavbarSpan>
         <ReactNavbar.Toggle aria-controls="navbar-responsive-dropdown" />
         {/* <Link href = '/' as="/"> */}
