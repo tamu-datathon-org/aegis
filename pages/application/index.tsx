@@ -30,6 +30,7 @@ function Home(): JSX.Element {
   const [hiddenTalent, setHiddenTalent] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
   const [extraInfo, setExtraInfo] = useState('');
+  const [resume, setResume] = useState<File>();
 
   const [, setToast] = useToasts();
 
@@ -132,8 +133,9 @@ function Home(): JSX.Element {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, setToast: any) => {
     event.preventDefault();
+
     try {
-      const response = await axios.post('/apply/api/updateApplication', {
+        const response = await axios.post('/apply/api/updateApplication', {
         appStatus: 'Submitted',
         firstName,
         lastName,
@@ -153,8 +155,10 @@ function Home(): JSX.Element {
         unlimitedResourcesBuild,
         hiddenTalent,
         dietaryRestrictions,
-        extraInfo
+        extraInfo,
+        resume
       });
+
       if(response.status == 201) {
         setToast({ text: 'Application received!', type: 'success', delay: 3000 });
       }
@@ -163,6 +167,13 @@ function Home(): JSX.Element {
       console.error(error);
     }
   };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+        setResume(e.target.files[0]);
+    }
+  };
+
 
   const filteredSchools = allSchools.filter(currSchool => currSchool.schoolName.toLowerCase().includes(searchQuery?.toLowerCase()));
   const visibleSchools = filteredSchools.slice(0, 7);
@@ -327,6 +338,10 @@ function Home(): JSX.Element {
               </div>
 
               {/* TODO: Upload your resume and use S3 AmazonAWS (if budget approved LMAO)*/}
+              <div className='input-wrapper'>
+                <label htmlFor='address'>Upload your resume (PDF only):</label>
+                <input type="file" accept=".pdf" onChange={handleFileChange} />
+              </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='reflinks'>Point us to anything you'd like us to look at while considering your application:</label>

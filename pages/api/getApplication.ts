@@ -17,6 +17,6 @@ handler.get(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, t
     console.log(error);
     res.status(500).json({ message: 'Error fetching application', error });
   }
-}));  
+}));
 
 export default handler;

@@ -42,11 +42,11 @@ function Home(): JSX.Element {
     <div className = "mainContent">
       <h1>DASHBOARD</h1>
 
-      <div className="vertical boxShadowContainer" style={{alignItems: "center", height: "400px"}}>
+      <form className="vertical boxShadowContainer" style={{alignItems: "center", height: "50vh", width: "75vw"}}>
         <div className="dashboardText">APPLICATION STATUS:</div>
         <div className="dashStatus">{appStatus.toUpperCase()}</div>
-        <button className="editButton"><Link href="/application" className="dashboardText">Edit your application</Link></button>
-      </div>
+        <button className="editButton"><Link className="dashboardText buttonText" href="/application">Edit your application</Link></button>
+      </form>
     </div>
     </>
   );

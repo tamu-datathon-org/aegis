@@ -20,6 +20,8 @@ body {
 
 .boxShadowContainer {
     box-shadow: 5px 5px 29px #add9eb, -5px -5px 29px #ffffff;
+    /* width: fit-content; */
+    /* padding: 100px; */
 }
 
 label {
@@ -56,7 +58,6 @@ textarea {
 .appButton {
   width: 100%;
   margin-top: 10px;
-  border: 0;
   padding: 0;
 }
 
@@ -65,7 +66,7 @@ button, input, textArea, select {
 }
 
 a {
-    color: white !important;
+    color: black !important;
 }
 
 .mainContent {
@@ -76,9 +77,28 @@ a {
   padding-bottom: 100px;
 }
 
+.dashBoardContent {
+
+}
+
+.buttonText {
+    color: white !important;
+}
+
+button {
+    background-color: #40d6ff;
+    border-radius: 5px;
+    border: 0;
+}
+
+
+button:hover {
+    background-color: #2f40d8 !important;   
+}
+
 h1 {
   text-align: center;
-  color: #632ED2 !important;
+  color: #2f40d8 !important;
 }
 
 .dashboardText {
@@ -94,7 +114,8 @@ form {
   top: 50%;
   left: 50%;
   transform: translate(-50%, 0%);
-
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .suggestion-item::before {
@@ -130,10 +151,6 @@ form {
   background-color: #e1e1e1;
 }
 
-.editButton {
-  background: #4740af;
-}
-
 table {
   border-collapse: collapse;
   width: 100%;
@@ -162,4 +179,6 @@ td {
   display: inline-block;
   text-align: left;
   width: 75%;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
