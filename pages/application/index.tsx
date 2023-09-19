@@ -30,7 +30,7 @@ function Home(): JSX.Element {
   const [hiddenTalent, setHiddenTalent] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
   const [extraInfo, setExtraInfo] = useState('');
-  const [resume, setResume] = useState<File>();
+  const [resume, setResume] = useState<File | null>(null);
 
   const [, setToast] = useToasts();
 
@@ -156,11 +156,23 @@ function Home(): JSX.Element {
         hiddenTalent,
         dietaryRestrictions,
         extraInfo,
-        resume
       });
 
-      if(response.status == 201) {
+      const formData = new FormData();
+      if(resume) {
+        formData.append('resume', resume);
+      }
+
+      const response2 = await axios.post('apply/api/uploadResume', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data', // Set the content type
+        },
+      });
+
+      if(response.status == 201 && response2.status == 201) {
         setToast({ text: 'Application received!', type: 'success', delay: 3000 });
+      } else {
+        setToast({ text: 'Failed to upload application.', type: 'error', delay: 3000 });  
       }
     } catch (error) {
       setToast({ text: 'Failed to upload application.', type: 'error', delay: 3000 });
@@ -234,7 +246,6 @@ function Home(): JSX.Element {
                 </select>
               </div>
 
-              {/* TODO: Determine if 2028 is an actual graduation year LOL */}
               <div className='input-wrapper'>
                 <label htmlFor='anticipatedGradYear' className = 'requiredField'> What is your anticipated graduation year?</label>
                 <select value = {anticipatedGradYear} onChange={event => setAnticipatedgradYear(event.target.value)}>
@@ -244,6 +255,7 @@ function Home(): JSX.Element {
                   <option value='2025'>2025</option>
                   <option value='2026'>2026</option>
                   <option value='2027'>2027</option>
+                  <option value='Other'>Other</option>
                 </select>
               </div>
 
@@ -284,7 +296,16 @@ function Home(): JSX.Element {
                 </select>
               </div>
 
-              {/* TODO: Add 'What technical skills do you have?' */}
+              {/* TODO forgor */}
+              <div className='input-wrapper'>
+                <label className = 'requiredField'> What is your experience level in Data Science? </label>
+                <select value = {hasTeam} onChange={event => setHasTeam(event.target.value)}>
+                  <option value=''>---------</option>
+                  <option value='Beginner'>Beginner</option>
+                  <option value='Advanced'>Advanced</option>
+                </select>
+              </div>
+
               <div className='input-wrapper'>
                 <label className = 'requiredField'> Do you have a team yet? </label>
                 <select value = {hasTeam} onChange={event => setHasTeam(event.target.value)}>
@@ -294,19 +315,18 @@ function Home(): JSX.Element {
                 </select>
               </div>
 
-              {/* TODO: Find out if we use the TAMU Engineering newsletter lol */}
               <div className='input-wrapper'>
                 <label className = 'requiredField'> How did you hear about TAMU Datathon? </label>
                 <select value = {eventSource} onChange={event => setEventSource(event.target.value)}>
                   <option value=''>---------</option>
                   <option value='Friend'>From a friend</option>
-                  <option value='Yard Sign'>Yard sign</option>
                   <option value='Social Media'>Social media</option>
                   <option value='Student Orgs'>Through another student org</option>
                   <option value='TD Organizer'>From a TAMU Datathon organizer</option>
                   <option value='ENGR Newsletter'>From the TAMU Engineering Newsletter</option>
                   <option value='MLH'>Major League Hacking (MLH)</option>
                   <option value='Attended Before'>I've attended TAMU Datathon before</option>
+                  <option value='Other'>Other</option>
                 </select>
               </div>
               
@@ -314,13 +334,6 @@ function Home(): JSX.Element {
                 <label className = 'requiredField'>What size shirt do you wear?</label>
                 <select value = {shirtSize} onChange={event => setShirtSize(event.target.value)}>
                   <option value=''>---------</option>
-                  <option value='WXXS'>Women's XXS</option>
-                  <option value='WXS'>Women's XS</option>
-                  <option value='WS'>Women's S</option>
-                  <option value='WM'>Women's M</option>
-                  <option value='WL'>Women's L</option>
-                  <option value='WXL'>Women's XL</option>
-                  <option value='WXXL'>Women's XXL</option>
                   <option value='XXS'>Unisex XXS</option>
                   <option value='XS'>Unisex XS</option>
                   <option value='S'>Unisex S</option>
@@ -337,9 +350,8 @@ function Home(): JSX.Element {
                 <div className='helperText'>You will not receive swag and prizes without an address.</div>
               </div>
 
-              {/* TODO: Upload your resume and use S3 AmazonAWS (if budget approved LMAO)*/}
               <div className='input-wrapper'>
-                <label htmlFor='address'>Upload your resume (PDF only):</label>
+                <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only):</label>
                 <input type="file" accept=".pdf" onChange={handleFileChange} />
               </div>
 
