@@ -22,7 +22,7 @@ export const Navbar: React.FC = () => {
       <UI.NavbarDropdownToggle id="navbar-account-dropdown">
         <UI.NavbarUserIcon icon={faUserCircle} />
       </UI.NavbarDropdownToggle>
-      <Dropdown.Menu className="dropdown-menu-right">
+      <Dropdown.Menu style={{overflow: 'hidden'}} className="dropdown-menu-right">
         <Dropdown.Header>{user?.email}</Dropdown.Header>
         <Dropdown.Item href="/auth/logout?r=/apply">Logout</Dropdown.Item>
       </Dropdown.Menu>

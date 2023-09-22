@@ -29,7 +29,7 @@ label {
   /* color: rgb(247, 220, 220); */
 }
 
-label.requiredField::after {
+.requiredField::after {
   content: " *";
   color: red;
 }
@@ -47,6 +47,10 @@ select {
 textarea {
   width: 100%;
   height: 100px;
+}
+
+.checkBox {
+    width: auto;
 }
 
 
@@ -85,6 +89,10 @@ button {
     background-color: #40d6ff;
     border-radius: 5px;
     border: 0;
+}
+
+ul, li {
+    margin: 0;
 }
 
 
@@ -177,4 +185,12 @@ td {
   width: 75%;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.mlh {
+    color: blue !important;
+}
+
+.mlh:hover{
+    text-decoration: underline;
 }

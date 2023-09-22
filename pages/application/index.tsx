@@ -386,6 +386,32 @@ function Home(): JSX.Element {
               </div>
 
               <div className='input-wrapper'>
+                <div style={{fontStyle: 'italic'}}>We are currently in the process of partnering with MLH. The following 3 checkboxes are for this partnership. If we do not end up partnering with MLH, your information will not be shared.</div>
+                <label className="requiredField">
+                    I have read and agree to the <a className="mlh" href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">MLH Code of Conduct</a>.
+                </label>
+                <div>
+                    <input type="checkbox" id="myCheckbox" className="checkBox" value=""/>
+                </div>
+              </div>
+
+              <div className='input-wrapper'>
+                <label className="requiredField">
+                    I authorize you to share my application/registration information with Major League Hacking for event administration, ranking, and MLH administration in-line with the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>. I further agree to the terms of both the <a className="mlh" href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md">MLH Contest Terms and Conditions</a> and the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
+                </label>
+                <div>
+                    <input type="checkbox" id="myCheckbox" className="checkBox" value=""/>
+                </div>              </div>
+
+              <div className='input-wrapper'>
+                <label>
+                    I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements."
+                </label>
+                <div>
+                    <input type="checkbox" id="myCheckbox" className="checkBox" value=""/>
+                </div>              </div>
+
+              <div className='input-wrapper'>
                 <button className='appButton' type='submit'>Submit application</button>
               </div>
             </div>
