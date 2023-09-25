@@ -20,7 +20,7 @@ export class MongoDBSingleton {
     useUnifiedTopology: true,
     connectTimeoutMS: 5000, // Example: 10 seconds
     socketTimeoutMS: 5000, // Example: 5 seconds
-    maxPoolSize: 100
+    maxPoolSize: 1
   };
 
   public static async getInstance(): Promise<Db> {
