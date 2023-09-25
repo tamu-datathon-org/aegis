@@ -253,7 +253,7 @@ function Home(): JSX.Element {
         body: formData,
       })
 
-      if(response.status == 201 && res.status == 201) {
+      if(response.status == 201 && res.status == 200) {
         setToast({ text: 'Application received!', type: 'success', delay: 3000 });
       } else {
         throw new Error();
