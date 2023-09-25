@@ -5,7 +5,6 @@ import nextConnect from 'next-connect';
 import s3 from '../../utils/aws-config';
 import formidable from 'formidable';
 import fs from 'fs';
-import axios from 'axios';
 import { WithId, Document } from 'mongodb';
 
 // For preventing header corruption, specifically Content-Length header
@@ -24,9 +23,10 @@ const generateUniqueResumeKey = async (s3: import("aws-sdk/clients/s3"), bucket:
         // Check if the key already exists in the S3 bucket
         await s3.headObject({ Bucket: bucket, Key: resumeKey }).promise();
   
-        if(user?.resumeKey == resumeKey) {
-            break;
+        if(user?.resumeKey) {
+            return user.resumeKey;
         }
+
         // If it exists, generate a new key with a suffix
         const [baseName, extension] = resumeKey.split('.');
         resumeKey = `${baseName}-${suffix}.${extension}`;
@@ -50,20 +50,20 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
 
     form.parse(req, async (error, fields, files) => {
         if (error) {
-          console.error('Error parsing form data:', error);
+          console.log('Error parsing form data:', error);
           res.status(500).json({ error: 'Server error' });
           return;
         }
 
         // Check if a file was uploaded
         if (!files.resume) {
-            console.error('No file uploaded');
+            console.log('No file uploaded');
             res.status(400).json({ error: 'No file uploaded' });
             return;
         }
 
         if (files.resume[0].mimetype !== 'application/pdf') {
-            console.error('Uploaded file is not a PDF');
+            console.log('Uploaded file is not a PDF');
             res.status(400).json({ error: 'Uploaded file is not a PDF' });
             return;
         }
@@ -97,6 +97,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
     res.status(201).json({
       message: resumeKey,
     });
+    
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: 'Error creating document', error });
