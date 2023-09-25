@@ -42,7 +42,7 @@ function Home(): JSX.Element {
     <div className = "mainContent">
       <h1>DASHBOARD</h1>
 
-      <form className="vertical boxShadowContainer" style={{alignItems: "center", height: "50vh", width: "75vw"}}>
+      <form className="vertical boxShadowContainer" style={{alignItems: "center", height: "50vh", width: "75vw", padding: "10px"}}>
         <div className="dashboardText">APPLICATION STATUS:</div>
         <div className="dashStatus">{appStatus.toUpperCase()}</div>
         <button className="editButton"><Link className="dashboardText buttonText" href="/application">Edit your application</Link></button>

@@ -13,6 +13,8 @@ function Home(): JSX.Element {
   const { user, status } = useActiveUser();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [country, setCountry] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [school, setSchool] = useState('');
   const [major, setMajor] = useState('');
   const [classification, setClassification] = useState('');
@@ -20,6 +22,7 @@ function Home(): JSX.Element {
   const [gender, setGender] = useState('');
   const [selfDescribeAns, setSelfDescribeAns] = useState('');
   const [hackathonsAttended, setHackathonsAttended] = useState('');
+  const [experienceLevel, setExperienceLevel] = useState('');
   const [hasTeam, setHasTeam] = useState('');
   const [eventSource, setEventSource] = useState('');
   const [shirtSize, setShirtSize] = useState('');
@@ -30,7 +33,12 @@ function Home(): JSX.Element {
   const [hiddenTalent, setHiddenTalent] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
   const [extraInfo, setExtraInfo] = useState('');
+  const [mlhQ1, setmlhQ1] = useState(false);
+  const [mlhQ2, setmlhQ2] = useState(false);
+  const [mlhQ3, setmlhQ3] = useState(false);
+
   const [resume, setResume] = useState<File | null>(null);
+  const [fakeResumeName, setFakeResumeName] = useState('File not chosen');
 
   const [, setToast] = useToasts();
 
@@ -41,10 +49,10 @@ function Home(): JSX.Element {
   }, [status])
     
   useEffect(() => {
-    const fetchApplication = async () => {
-      try {
-      const response = await fetch('/apply/api/getApplication');
-      const data = await response.json();
+      const fetchApplication = async () => {
+        try {
+        const response = await fetch('/apply/api/getApplication');
+        const data = await response.json();
     
         // TODO: FIX THIS GARBAGE CODE
         if(data.firstName != null) {
@@ -53,6 +61,14 @@ function Home(): JSX.Element {
         
         if(data.lastName != null) {
           setLastName(data.lastName);
+        }
+
+        if(data.country != null) {
+            setCountry(data.country);
+        }
+
+        if(data.phoneNumber != null) {
+            setPhoneNumber(data.phoneNumber);
         }
 
         if(data.school != null) {
@@ -79,6 +95,10 @@ function Home(): JSX.Element {
         if(data.selfDescribeAns != null) {
           setSelfDescribeAns(data.selfDescribeAns);
         }
+
+        if(data.experienceLevel != null) {
+          setExperienceLevel(data.experienceLevel);
+        }  
 
         if(data.hackathonsAttended != null) {
           setHackathonsAttended(data.hackathonsAttended);
@@ -124,19 +144,39 @@ function Home(): JSX.Element {
           setExtraInfo(data.extraInfo);
         }
 
+        if(data.mlhQ1 != null) {
+            setmlhQ1(data.mlhQ1);
+        }
+
+        if(data.mlhQ2 != null) {
+            setmlhQ2(data.mlhQ2);
+        }
+
+        if(data.mlhQ3 != null) {
+            setmlhQ3(data.mlhQ3);
+        }
+
+        if(data.resume != null) {
+            setResume(data.resume);
+        }
+
+        if(data.fakeResumeName != null) {
+            setFakeResumeName(data.fakeResumeName);
+        }
+
       } catch (error) {
         console.error(error);
       }
     }
+
     fetchApplication();
   }, [])
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, setToast: any) => {
     event.preventDefault();
 
-    try {
-        const response = await axios.post('/apply/api/updateApplication', {
-        appStatus: 'Submitted',
+    // Validate each fieldf
+    const fieldsToValidate = [
         firstName,
         lastName,
         school,
@@ -144,18 +184,50 @@ function Home(): JSX.Element {
         classification,
         anticipatedGradYear,
         gender,
-        selfDescribeAns,
+        experienceLevel,
         hackathonsAttended,
         hasTeam,
         eventSource,
         shirtSize,
-        address,
-        referenceLinks,
         programmingJoke,
         unlimitedResourcesBuild,
         hiddenTalent,
-        dietaryRestrictions,
-        extraInfo,
+    ];
+
+    for (let i = 0; i < fieldsToValidate.length; i++) {
+        const field = fieldsToValidate[i];
+        
+        if (field.trim() === '' || fakeResumeName === 'File not chosen')  {
+        const t = 'Please fill in all required fields. Index: ' + i;
+          setToast({ text: t, type: 'error', delay: 3000 });
+          return;
+        }
+    }
+
+    try {
+        const response = await axios.post('/apply/api/updateApplication', {
+        appStatus: 'Submitted',
+        firstName,
+        lastName,
+        country,
+        phoneNumber,
+        school,
+        major,
+        classification,
+        anticipatedGradYear,
+        gender,
+        experienceLevel,
+        hackathonsAttended,
+        hasTeam,
+        eventSource,
+        shirtSize,
+        programmingJoke,
+        unlimitedResourcesBuild,
+        hiddenTalent,
+        mlhQ1,
+        mlhQ2,
+        mlhQ3,
+        fakeResumeName
       });
 
       const formData = new FormData();
@@ -172,10 +244,10 @@ function Home(): JSX.Element {
       if(response.status == 201 && response2.status == 201) {
         setToast({ text: 'Application received!', type: 'success', delay: 3000 });
       } else {
-        setToast({ text: 'Failed to upload application.', type: 'error', delay: 3000 });  
+        throw new Error();
       }
     } catch (error) {
-      setToast({ text: 'Failed to upload application.', type: 'error', delay: 3000 });
+      setToast({ text: 'Failed to upload application. Error: ' + error, type: 'error', delay: 3000 });
       console.error(error);
     }
   };
@@ -183,6 +255,7 @@ function Home(): JSX.Element {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
         setResume(e.target.files[0]);
+        setFakeResumeName(e.target.files[0].name);
     }
   };
 
@@ -199,25 +272,36 @@ function Home(): JSX.Element {
             <div className = 'vertical' style={{alignItems: 'center'}}>
               <div className='input-wrapper'>
                 <label htmlFor='firstName' className = 'requiredField'>First name:</label>
-                <input type='text' value={firstName} id='firstName' onChange={event => setFirstName(event.target.value)}/>
+                <input type='text' required value={firstName} id='firstName' onChange={event => setFirstName(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='lastName' className = 'requiredField'>Last name:</label>
-                <input type='text' value={lastName} id='lastName' onChange={event => setLastName(event.target.value)}/>
+                <input type='text' required value={lastName} id='lastName' onChange={event => setLastName(event.target.value)}/>
               </div>
+
+              {/* <div className='input-wrapper'>
+                <label htmlFor='country'>Country of Residence:</label>
+                <input type='text' value={country} id='country' onChange={event => setCountry(event.target.value)}/>
+              </div> */}
+
+              <div className='input-wrapper'>
+                <label htmlFor='phoneNumber'>Phone number</label>
+                <input type='text' value={phoneNumber} id='phoneNumber' onChange={event => setPhoneNumber(event.target.value)}/>
+              </div>
+
 
               <div className='input-wrapper'>
                 <label htmlFor='searchQuery' className = 'requiredField'> What school do you go to? </label>
                 <div className='helperText'>Currently selected school: {school}</div>
-                <input type='text' id='searchQuery' value={searchQuery} onChange={event => {
+                <input type='text' required id='searchQuery' value={searchQuery} onChange={event => {
                 // removes autocomplete locally (so it doesn't block our search results)
                 event.target.setAttribute('autocomplete', 'off');
                 setSearchQuery(event.target.value);
                 setShowResults(true);
                 }} onBlur={() => setShowResults(false)} onFocus={() => setShowResults(true)} placeholder='Search for a school' />
                 {showResults && 
-                  <ul>
+                  <ul style={{margin: 0}}>
                     {visibleSchools.map((currSchool, index) => (
                       <li className = 'suggestion-item' key={index} onMouseDown={() => {setSchool(currSchool.schoolName); setSearchQuery(currSchool.schoolName)}}>
                           {currSchool.schoolName}
@@ -229,7 +313,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='major' className = 'requiredField'> What's your major? </label>
-                <input type='text' value={major} id='major' onChange={event => setMajor(event.target.value)}/>
+                <input type='text' required value={major} id='major' onChange={event => setMajor(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
@@ -299,7 +383,7 @@ function Home(): JSX.Element {
               {/* TODO forgor */}
               <div className='input-wrapper'>
                 <label className = 'requiredField'> What is your experience level in Data Science? </label>
-                <select value = {hasTeam} onChange={event => setHasTeam(event.target.value)}>
+                <select value = {experienceLevel} onChange={event => setExperienceLevel(event.target.value)}>
                   <option value=''>---------</option>
                   <option value='Beginner'>Beginner</option>
                   <option value='Advanced'>Advanced</option>
@@ -352,7 +436,8 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only):</label>
-                <input type="file" accept=".pdf" onChange={handleFileChange} />
+                <input type="file" accept=".pdf" onChange={handleFileChange} style={{color: "transparent"}}/>
+                {fakeResumeName}
               </div>
 
               <div className='input-wrapper'>
@@ -391,25 +476,27 @@ function Home(): JSX.Element {
                     I have read and agree to the <a className="mlh" href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">MLH Code of Conduct</a>.
                 </label>
                 <div>
-                    <input type="checkbox" id="myCheckbox" className="checkBox" value=""/>
+                    <input type="checkbox" id="mlhQ1" className="checkBox" checked={mlhQ1} onChange={event => setmlhQ1(event.target.checked)}/>
                 </div>
               </div>
 
               <div className='input-wrapper'>
                 <label className="requiredField">
-                    I authorize you to share my application/registration information with Major League Hacking for event administration, ranking, and MLH administration in-line with the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>. I further agree to the terms of both the <a className="mlh" href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md">MLH Contest Terms and Conditions</a> and the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
+                    I authorize you to share my application / registration information with Major League Hacking for event administration, ranking, and MLH administration in-line with the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>. I further agree to the terms of both the <a className="mlh" href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md">MLH Contest Terms and Conditions</a> and the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
                 </label>
                 <div>
-                    <input type="checkbox" id="myCheckbox" className="checkBox" value=""/>
-                </div>              </div>
+                    <input type="checkbox" id="mlhQ2" className="checkBox" checked={mlhQ2} onChange={event => setmlhQ2(event.target.checked)}/>
+                </div>
+              </div>
 
               <div className='input-wrapper'>
                 <label>
-                    I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements."
+                    I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements.
                 </label>
                 <div>
-                    <input type="checkbox" id="myCheckbox" className="checkBox" value=""/>
-                </div>              </div>
+                    <input type="checkbox" id="mlhQ3" className="checkBox" checked={mlhQ3} onChange={event => setmlhQ3(event.target.checked)}/>
+                </div>
+              </div>
 
               <div className='input-wrapper'>
                 <button className='appButton' type='submit'>Submit application</button>

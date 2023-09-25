@@ -37,6 +37,7 @@ label {
 input{
   width: 100%;
   height: 30px;
+  box-sizing: border-box;
 }
 
 select {
@@ -56,7 +57,7 @@ textarea {
 
 .dashStatus {
   font-weight: bold;
-  font-size: 3rem;
+  font-size: 200%;
 }
 
 .appButton {
@@ -66,7 +67,8 @@ textarea {
 }
 
 button, input, textArea, select {
-    padding: 0;
+    /* padding: 10px; */
+    border-color: black;
 }
 
 a {
@@ -106,14 +108,15 @@ h1 {
 }
 
 .dashboardText {
-  font-size: 2rem;
+  font-size: 150%;
+  text-align: center;
 }
 
 form {
   /* background-color: white; */
   background: white;
   padding: 0;
-  width: fit-content;
+  width: 75vw;
   position: relative;
   top: 50%;
   left: 50%;
