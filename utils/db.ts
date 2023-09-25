@@ -21,6 +21,7 @@ export class MongoDBSingleton {
     connectTimeoutMS: 10000, // Example: 10 seconds
     socketTimeoutMS: 15000, // Example: 15 seconds
     maxIdleTimeMS: 15000, // Example: 15 seconds
+    maxPoolSize: 10
   };
 
   public static async getInstance(): Promise<Db> {

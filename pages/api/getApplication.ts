@@ -5,19 +5,22 @@ import nextConnect from 'next-connect'
 
 const handler = nextConnect();
 handler.get(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, tdUser) => {
-    const db = await MongoDBSingleton.getInstance();
+    let db;
     try {
-    const result = await db.collection('applications').findOne({ email: tdUser.email });
-    if(result != null)
-      res.status(200).json( result );
-    else {
-      res.status(404).json({ message: 'Application not found' });
-    }
-    await MongoDBSingleton.closeConnection();
+        db= await MongoDBSingleton.getInstance();
+        const result = await db.collection('applications').findOne({ email: tdUser.email });
+        if(result != null)
+            res.status(200).json( result );
+        else {
+            res.status(404).json({ message: 'Application not found' });
+        }
   } catch (error) {
-    await MongoDBSingleton.closeConnection();
     console.log(error);
     res.status(500).json({ message: 'Error fetching application', error });
+  } finally {
+    if(db) {
+        await MongoDBSingleton.closeConnection();
+    }
   }
 }));
 
