@@ -18,10 +18,9 @@ export class MongoDBSingleton {
   private static connectionOptions = {
     useNewUrlParser: true,
     useUnifiedTopology: true,
-    connectTimeoutMS: 10000, // Example: 10 seconds
-    socketTimeoutMS: 15000, // Example: 15 seconds
-    maxIdleTimeMS: 15000, // Example: 15 seconds
-    maxPoolSize: 10
+    connectTimeoutMS: 5000, // Example: 10 seconds
+    socketTimeoutMS: 5000, // Example: 5 seconds
+    maxPoolSize: 100
   };
 
   public static async getInstance(): Promise<Db> {
