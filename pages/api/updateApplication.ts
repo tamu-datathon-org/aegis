@@ -19,7 +19,9 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
       message: 'Document created successfully',
       result: result,
     });
+    await MongoDBSingleton.closeConnection();
   } catch (error) {
+    await MongoDBSingleton.closeConnection();
     console.log(error);
     res.status(500).json({ message: 'Error creating document', error });
   }

@@ -239,7 +239,7 @@ function Home(): JSX.Element {
       const fileType = encodeURIComponent(file?.type || "")
     
       const res = await fetch(
-        `/apply/api/upload-url?file=${filename}&fileType=${fileType}`
+        `/apply/api/upload-url?fileType=${fileType}&firstName=${firstName}&lastName=${lastName}`
       )
       const { url, fields } = await res.json()
       
@@ -253,7 +253,7 @@ function Home(): JSX.Element {
         body: formData,
       })
 
-      if(response.status == 201 && upload.ok) {
+      if(response.status == 201 && res.status == 201) {
         setToast({ text: 'Application received!', type: 'success', delay: 3000 });
       } else {
         throw new Error();
@@ -445,7 +445,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only):</label>
-                <input type="file" accept=".pdf" onChange={handleFileChange}/>
+                <input type="file" accept="application/pdf" onChange={handleFileChange}/>
               </div>
 
               <div className='input-wrapper'>

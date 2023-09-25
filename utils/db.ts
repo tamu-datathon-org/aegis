@@ -12,7 +12,7 @@ if (MONGODB_DB === '') {
 }
 
 export class MongoDBSingleton {
-  private static instance: Promise<MongoClient> | null = null;
+  private static instance: MongoClient | null = null;
 
   // Define timeout options
   private static connectionOptions = {
@@ -25,12 +25,16 @@ export class MongoDBSingleton {
 
   public static async getInstance(): Promise<Db> {
     if (!MongoDBSingleton.instance) {
-      const connectionPromise = MongoClient.connect(MONGODB_URI, MongoDBSingleton.connectionOptions);
-
-      MongoDBSingleton.instance = connectionPromise;
+      MongoDBSingleton.instance = await MongoClient.connect(MONGODB_URI, MongoDBSingleton.connectionOptions);
     }
 
-    const client = await MongoDBSingleton.instance;
-    return client.db(MONGODB_DB);
+    return MongoDBSingleton.instance.db(MONGODB_DB);
+  }
+
+  public static async closeConnection() {
+    if (MongoDBSingleton.instance) {
+      await MongoDBSingleton.instance.close();
+      MongoDBSingleton.instance = null;
+    }
   }
 }
