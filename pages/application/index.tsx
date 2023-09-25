@@ -38,7 +38,6 @@ function Home(): JSX.Element {
   const [mlhQ3, setmlhQ3] = useState(false);
 
   const [resume, setResume] = useState<File | null>(null);
-  const [fakeResumeName, setFakeResumeName] = useState('File not chosen');
 
   const [, setToast] = useToasts();
 
@@ -160,10 +159,6 @@ function Home(): JSX.Element {
             setResume(data.resume);
         }
 
-        if(data.fakeResumeName != null) {
-            setFakeResumeName(data.fakeResumeName);
-        }
-
       } catch (error) {
         console.error(error);
       }
@@ -197,8 +192,10 @@ function Home(): JSX.Element {
     for (let i = 0; i < fieldsToValidate.length; i++) {
         const field = fieldsToValidate[i];
         
-        if (field.trim() === '' || fakeResumeName === 'File not chosen')  {
-        const t = 'Please fill in all required fields. Index: ' + i;
+        if (field.trim() === '')  {
+        var t = 'Please fill in all required fields. Index: ' + i;
+        if(resume === null)
+            t = 'Please enter a valid resume file'
           setToast({ text: t, type: 'error', delay: 3000 });
           return;
         }
@@ -216,18 +213,22 @@ function Home(): JSX.Element {
         classification,
         anticipatedGradYear,
         gender,
-        experienceLevel,
+        selfDescribeAns,
         hackathonsAttended,
+        experienceLevel,
         hasTeam,
         eventSource,
         shirtSize,
+        address,
+        referenceLinks,
         programmingJoke,
         unlimitedResourcesBuild,
         hiddenTalent,
+        dietaryRestrictions,
+        extraInfo,
         mlhQ1,
         mlhQ2,
         mlhQ3,
-        fakeResumeName
       });
 
       const formData = new FormData();
@@ -255,7 +256,6 @@ function Home(): JSX.Element {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
         setResume(e.target.files[0]);
-        setFakeResumeName(e.target.files[0].name);
     }
   };
 
@@ -436,8 +436,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only):</label>
-                <input type="file" accept=".pdf" onChange={handleFileChange} style={{color: "transparent"}}/>
-                {fakeResumeName}
+                <input type="file" accept=".pdf" onChange={handleFileChange}/>
               </div>
 
               <div className='input-wrapper'>
