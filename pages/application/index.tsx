@@ -232,17 +232,28 @@ function Home(): JSX.Element {
       });
 
       const formData = new FormData();
-      if(resume) {
-        formData.append('resume', resume);
-      }
 
-      const response2 = await axios.post('/apply/api/uploadResume', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data', // Set the content type
-        },
+      const file = resume;
+
+      const filename = encodeURIComponent(file?.name || "")
+      const fileType = encodeURIComponent(file?.type || "")
+    
+      const res = await fetch(
+        `/apply/api/upload-url?file=${filename}&fileType=${fileType}`
+      )
+      const { url, fields } = await res.json()
+      
+      console.log(url);
+      Object.entries({ ...fields, file }).forEach(([key, value]) => {
+        formData.append(key, value as string);
       });
 
-      if(response.status == 201 && response2.status == 201) {
+      const upload = await fetch(url, {
+        method: 'POST',
+        body: formData,
+      })
+
+      if(response.status == 201 && upload.ok) {
         setToast({ text: 'Application received!', type: 'success', delay: 3000 });
       } else {
         throw new Error();
@@ -254,9 +265,7 @@ function Home(): JSX.Element {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-        setResume(e.target.files[0]);
-    }
+        setResume(e.target.files?.[0]!);
   };
 
 
