@@ -235,7 +235,7 @@ function Home(): JSX.Element {
         formData.append('resume', resume);
       }
 
-      const response2 = await axios.post('apply/api/uploadResume', formData, {
+      const response2 = await axios.post('/apply/api/uploadResume', formData, {
         headers: {
             'Content-Type': 'multipart/form-data', // Set the content type
         },
