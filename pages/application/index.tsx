@@ -13,6 +13,7 @@ function Home(): JSX.Element {
   const { user, status } = useActiveUser();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [age, setAge] = useState('');
   const [country, setCountry] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [school, setSchool] = useState('');
@@ -30,7 +31,7 @@ function Home(): JSX.Element {
   const [referenceLinks, setReferenceLinks] = useState('');
   const [programmingJoke, setProgrammingJoke] = useState('');
   const [unlimitedResourcesBuild, setUnlimitedResourcesBuild] = useState('');
-  const [hiddenTalent, setHiddenTalent] = useState('');
+//   const [hiddenTalent, setHiddenTalent] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
   const [extraInfo, setExtraInfo] = useState('');
   const [mlhQ1, setmlhQ1] = useState(false);
@@ -60,6 +61,10 @@ function Home(): JSX.Element {
         
         if(data.lastName != null) {
           setLastName(data.lastName);
+        }
+
+        if(data.age != null) {
+            setAge(data.age);
         }
 
         if(data.country != null) {
@@ -131,9 +136,9 @@ function Home(): JSX.Element {
           setUnlimitedResourcesBuild(data.unlimitedResourcesBuild);
         }
 
-        if(data.hiddenTalent != null) {
-          setHiddenTalent(data.hiddenTalent);
-        }
+        // if(data.hiddenTalent != null) {
+        //   setHiddenTalent(data.hiddenTalent);
+        // }
 
         if(data.dietaryRestrictions != null) {
           setDietaryRestrictions(data.dietaryRestrictions);
@@ -174,6 +179,8 @@ function Home(): JSX.Element {
     const fieldsToValidate = [
         firstName,
         lastName,
+        age,
+        country,
         school,
         major,
         classification,
@@ -186,7 +193,7 @@ function Home(): JSX.Element {
         shirtSize,
         programmingJoke,
         unlimitedResourcesBuild,
-        hiddenTalent,
+        // hiddenTalent,
     ];
 
     for (let i = 0; i < fieldsToValidate.length; i++) {
@@ -206,6 +213,7 @@ function Home(): JSX.Element {
         appStatus: 'Submitted',
         firstName,
         lastName,
+        age,
         country,
         phoneNumber,
         school,
@@ -223,7 +231,7 @@ function Home(): JSX.Element {
         referenceLinks,
         programmingJoke,
         unlimitedResourcesBuild,
-        hiddenTalent,
+        // hiddenTalent,
         dietaryRestrictions,
         extraInfo,
         mlhQ1,
@@ -289,13 +297,18 @@ function Home(): JSX.Element {
                 <input type='text' required value={lastName} id='lastName' onChange={event => setLastName(event.target.value)}/>
               </div>
 
-              {/* <div className='input-wrapper'>
-                <label htmlFor='country'>Country of Residence:</label>
-                <input type='text' value={country} id='country' onChange={event => setCountry(event.target.value)}/>
-              </div> */}
+              <div className='input-wrapper'>
+                <label htmlFor='age' className = 'requiredField'>Age:</label>
+                <input type='text' required value={age} id='age' onChange={event => setAge(event.target.value)}/>
+              </div>
 
               <div className='input-wrapper'>
-                <label htmlFor='phoneNumber'>Phone number</label>
+                <label htmlFor='country' className = 'requiredField'>Country of Residence:</label>
+                <input type='text' value={country} id='country' onChange={event => setCountry(event.target.value)}/>
+              </div>
+
+              <div className='input-wrapper'>
+                <label htmlFor='phoneNumber'>Phone number:</label>
                 <input type='text' value={phoneNumber} id='phoneNumber' onChange={event => setPhoneNumber(event.target.value)}/>
               </div>
 
@@ -328,14 +341,18 @@ function Home(): JSX.Element {
               <div className='input-wrapper'>
                 <label htmlFor='classification' className = 'requiredField'> What classification are you? </label>
                 <select value = {classification} onChange={event => setClassification(event.target.value)}>
-                  <option value=''>---------</option>
-                  <option value='Fr'>Freshman</option>
-                  <option value='So'>Sophomore</option>
-                  <option value='Jr'>Junior</option>
-                  <option value='Sr'>Senior</option>
-                  <option value='Ma'>Master's Student</option>
-                  <option value='PhD'>PhD Student</option>
-                  <option value='O'>Other</option>
+                    <option value=''>---------</option>
+                    <option value='LessThanSecondary'>Less than Secondary / High School</option>
+                    <option value='Secondary'>Secondary / High School</option>
+                    <option value='Undergrad2Year'>Undergraduate University (2 year - community college or similar)</option>
+                    <option value='Undergrad3PlusYear'>Undergraduate University (3+ year)</option>
+                    <option value='Graduate'>Graduate University (Masters, Professional, Doctoral, etc)</option>
+                    <option value='CodeSchool'>Code School / Bootcamp</option>
+                    <option value='Vocational'>Other Vocational / Trade Program or Apprenticeship</option>
+                    <option value='PostDoc'>Post Doctorate</option>
+                    <option value='Other'>Other</option>
+                    <option value='NotStudent'>I’m not currently a student</option>
+                    <option value='PreferNotToAnswer'>Prefer not to answer</option>
                 </select>
               </div>
 
@@ -427,8 +444,6 @@ function Home(): JSX.Element {
                 <label className = 'requiredField'>What size shirt do you wear?</label>
                 <select value = {shirtSize} onChange={event => setShirtSize(event.target.value)}>
                   <option value=''>---------</option>
-                  <option value='XXS'>Unisex XXS</option>
-                  <option value='XS'>Unisex XS</option>
                   <option value='S'>Unisex S</option>
                   <option value='M'>Unisex M</option>
                   <option value='L'>Unisex L</option>
@@ -463,10 +478,10 @@ function Home(): JSX.Element {
                 <textarea id='unlimitedResourcesBuild' value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
               </div>
 
-              <div className='input-wrapper'>
+              {/* <div className='input-wrapper'>
                 <label htmlFor='hiddenTalent' className = 'requiredField'> What's your hidden talent? </label>
                 <textarea id='hiddenTalent' value={hiddenTalent} onChange={event => setHiddenTalent(event.target.value)}/>
-              </div>
+              </div> */}
 
               <div className='input-wrapper'>
                 <label htmlFor='dietaryRestrictions'>Do you require any special accommodations at the event? Please list all dietary restrictions here.</label>
