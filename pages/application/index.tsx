@@ -211,6 +211,9 @@ function Home(): JSX.Element {
             missingFields.push(field.label);
         }
     }
+
+    if(!resume)
+        missingFields.push("Resume file");
     
     if (missingFields.length > 0) {
         const missingFieldsList = missingFields.join(', ');
