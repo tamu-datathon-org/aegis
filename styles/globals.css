@@ -69,6 +69,7 @@ textarea {
 button, input, textArea, select {
     /* padding: 10px; */
     border-color: black;
+    border-width: 1px;
 }
 
 a {

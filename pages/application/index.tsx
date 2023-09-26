@@ -3,13 +3,19 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import allSchools from './schools.json';
+import countriesData from './countries.json';
 import { useToasts } from '@geist-ui/react';
 import { Navbar } from '@/components/Navbar';
 
 function Home(): JSX.Element {
   const router = useRouter();
+
+  // for filtering with searchable lists (custom)
   const [showResults, setShowResults] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [countrySearchQuery, setCountrySearchQuery] = useState('');
+  const [countryShowResults, setCountryShowResults] = useState(false);
+
   const { user, status } = useActiveUser();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -31,7 +37,7 @@ function Home(): JSX.Element {
   const [referenceLinks, setReferenceLinks] = useState('');
   const [programmingJoke, setProgrammingJoke] = useState('');
   const [unlimitedResourcesBuild, setUnlimitedResourcesBuild] = useState('');
-//   const [hiddenTalent, setHiddenTalent] = useState('');
+  const [interestReason, setInterestReason] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
   const [extraInfo, setExtraInfo] = useState('');
   const [mlhQ1, setmlhQ1] = useState(false);
@@ -136,9 +142,9 @@ function Home(): JSX.Element {
           setUnlimitedResourcesBuild(data.unlimitedResourcesBuild);
         }
 
-        // if(data.hiddenTalent != null) {
-        //   setHiddenTalent(data.hiddenTalent);
-        // }
+        if(data.interestReason != null) {
+            setInterestReason(data.interestReason);
+        }
 
         if(data.dietaryRestrictions != null) {
           setDietaryRestrictions(data.dietaryRestrictions);
@@ -175,37 +181,42 @@ function Home(): JSX.Element {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>, setToast: any) => {
     event.preventDefault();
 
-    // Validate each fieldf
     const fieldsToValidate = [
-        firstName,
-        lastName,
-        age,
-        country,
-        school,
-        major,
-        classification,
-        anticipatedGradYear,
-        gender,
-        experienceLevel,
-        hackathonsAttended,
-        hasTeam,
-        eventSource,
-        shirtSize,
-        programmingJoke,
-        unlimitedResourcesBuild,
-        // hiddenTalent,
+        { variable: firstName, label: 'First Name' },
+        { variable: lastName, label: 'Last Name' },
+        { variable: age, label: 'Age' },
+        { variable: country, label: 'Country' },
+        { variable: school, label: 'School' },
+        { variable: major, label: 'Major' },
+        { variable: classification, label: 'Classification' },
+        { variable: anticipatedGradYear, label: 'Anticipated Graduation Year' },
+        { variable: gender, label: 'Gender' },
+        { variable: hackathonsAttended, label: 'Hackathons Attended' },
+        { variable: experienceLevel, label: 'Experience Level' },
+        { variable: hasTeam, label: 'Has a Team' },
+        { variable: eventSource, label: 'Event Source' },
+        { variable: shirtSize, label: 'Shirt Size' },
+        { variable: programmingJoke, label: 'Programming Joke' },
+        { variable: unlimitedResourcesBuild, label: 'Unlimited Resources Build' },
+        { variable: interestReason, label: 'Interest Reason' },
     ];
-
+    
+    const missingFields = [];
+    
     for (let i = 0; i < fieldsToValidate.length; i++) {
         const field = fieldsToValidate[i];
+        const fieldValue = field.variable.trim();
         
-        if (field.trim() === '')  {
-        var t = 'Please fill in all required fields. Index: ' + i;
-        if(resume === null)
-            t = 'Please enter a valid resume file'
-          setToast({ text: t, type: 'error', delay: 3000 });
-          return;
+        if (fieldValue === '') {
+            missingFields.push(field.label);
         }
+    }
+    
+    if (missingFields.length > 0) {
+        const missingFieldsList = missingFields.join(', ');
+        const errorMessage = `Please fill in all required fields: ${missingFieldsList}`;
+        setToast({ text: errorMessage, type: 'error', delay: 3000 });
+        return;
     }
 
     try {
@@ -231,7 +242,7 @@ function Home(): JSX.Element {
         referenceLinks,
         programmingJoke,
         unlimitedResourcesBuild,
-        // hiddenTalent,
+        interestReason,
         dietaryRestrictions,
         extraInfo,
         mlhQ1,
@@ -280,6 +291,9 @@ function Home(): JSX.Element {
   const filteredSchools = allSchools.filter(currSchool => currSchool.schoolName.toLowerCase().includes(searchQuery?.toLowerCase()));
   const visibleSchools = filteredSchools.slice(0, 7);
 
+  const filteredCountries = countriesData.filter(currCountry => currCountry.name.toLowerCase().includes(countrySearchQuery?.toLowerCase()));
+  const visibleCountries = filteredCountries.slice(0, 7);
+
   return (
     <>
       <Navbar/>
@@ -299,13 +313,39 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='age' className = 'requiredField'>Age:</label>
-                <input type='text' required value={age} id='age' onChange={event => setAge(event.target.value)}/>
-              </div>
+                <select id="age" value={age} onChange={event => setAge(event.target.value)} required>
+                    <option value=''>---------</option>
+                    <option value="16-">16 or younger</option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
+                    <option value="21">21</option>
+                    <option value="22">22</option>
+                    <option value="23">23</option>
+                    <option value="24+">24 or older</option>
+                </select>              
+               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='country' className = 'requiredField'>Country of Residence:</label>
-                <input type='text' value={country} id='country' onChange={event => setCountry(event.target.value)}/>
-              </div>
+                <div className='helperText'>Currently selected country: {country}</div>
+                <input type='text' required id='countrySearchQuery' value={countrySearchQuery} onChange={event => {
+                // removes autocomplete locally (so it doesn't block our search results)
+                event.target.setAttribute('autocomplete', 'off');
+                setCountrySearchQuery(event.target.value);
+                setCountryShowResults(true);
+                }} onBlur={() => setCountryShowResults(false)} onFocus={() => setCountryShowResults(true)} placeholder='Search for a country' />
+                {countryShowResults && 
+                  <ul style={{margin: 0}}>
+                    {visibleCountries.map((currCountry, index) => (
+                      <li className = 'suggestion-item' key={index} onMouseDown={() => {setCountry(currCountry.name); setCountrySearchQuery(currCountry.name)}}>
+                          {currCountry.name}
+                      </li>
+                    ))}
+                  </ul>
+                }
+                </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='phoneNumber'>Phone number:</label>
@@ -335,8 +375,47 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='major' className = 'requiredField'> What's your major? </label>
-                <input type='text' required value={major} id='major' onChange={event => setMajor(event.target.value)}/>
-              </div>
+                <select id='major' value={major} onChange={(event) => setMajor(event.target.value)} required>
+                    <option value=''>---------</option>
+                    <option value='Computer science, computer engineering, or software engineering'>
+                        Computer science, computer engineering, or software engineering
+                    </option>
+                    <option value='Another engineering discipline'>
+                        Another engineering discipline (such as civil, electrical, mechanical, etc.)
+                    </option>
+                    <option value='Information systems, information technology, or system administration'>
+                        Information systems, information technology, or system administration
+                    </option>
+                    <option value='A natural science (such as biology, chemistry, physics, etc.)'>
+                        A natural science (such as biology, chemistry, physics, etc.)
+                    </option>
+                    <option value='Mathematics or statistics'>
+                        Mathematics or statistics
+                    </option>
+                    <option value='Web development or web design'>
+                        Web development or web design
+                    </option>
+                    <option value='Business discipline (such as accounting, finance, marketing, etc.)'>
+                        Business discipline (such as accounting, finance, marketing, etc.)
+                    </option>
+                    <option value='Humanities discipline (such as literature, history, philosophy, etc.)'>
+                        Humanities discipline (such as literature, history, philosophy, etc.)
+                    </option>
+                    <option value='Social science (such as anthropology, psychology, political science, etc.)'>
+                        Social science (such as anthropology, psychology, political science, etc.)
+                    </option>
+                    <option value='Fine arts or performing arts (such as graphic design, music, studio art, etc.)'>
+                        Fine arts or performing arts (such as graphic design, music, studio art, etc.)
+                    </option>
+                    <option value='Health science (such as nursing, pharmacy, radiology, etc.)'>
+                        Health science (such as nursing, pharmacy, radiology, etc.)
+                    </option>
+                    <option value='Other (please specify)'>Other (please specify)</option>
+                    <option value='Undecided / No Declared Major'>Undecided / No Declared Major</option>
+                    <option value='My school does not offer majors / primary areas of study'>My school does not offer majors / primary areas of study</option>
+                    <option value='Prefer not to answer'>Prefer not to answer</option>
+                </select>
+            </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='classification' className = 'requiredField'> What classification are you? </label>
@@ -459,7 +538,7 @@ function Home(): JSX.Element {
               </div>
 
               <div className='input-wrapper'>
-                <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only):</label>
+                <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only, 1MB max):</label>
                 <input type="file" required accept="application/pdf" onChange={handleFileChange}/>
               </div>
 
@@ -478,10 +557,10 @@ function Home(): JSX.Element {
                 <textarea id='unlimitedResourcesBuild' value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
               </div>
 
-              {/* <div className='input-wrapper'>
-                <label htmlFor='hiddenTalent' className = 'requiredField'> What's your hidden talent? </label>
-                <textarea id='hiddenTalent' value={hiddenTalent} onChange={event => setHiddenTalent(event.target.value)}/>
-              </div> */}
+              <div className='input-wrapper'>
+                <label htmlFor='interestReason' className = 'requiredField'> What drives your interest in being a part of TAMU Datathon? </label>
+                <textarea id='interestReason' value={interestReason} onChange={event => setInterestReason(event.target.value)}/>
+              </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='dietaryRestrictions'>Do you require any special accommodations at the event? Please list all dietary restrictions here.</label>

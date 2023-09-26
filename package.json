@@ -24,7 +24,6 @@
     "axios": "^1.2.2",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.2",
-    "formidable": "^3.5.1",
     "isomorphic-unfetch": "^4.0.2",
     "mailgun.js": "^8.0.6",
     "mongodb": "^4.13.0",

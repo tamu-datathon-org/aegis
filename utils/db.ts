@@ -21,11 +21,12 @@ if (process.env.NODE_ENV === 'development') {
 
   if (!globalWithMongo._mongoClientPromise) {
       console.log("created mongodb instance");
-    client = new MongoClient(uri, options)
+    client = new MongoClient(uri, {maxIdleTimeMS: 5})
     globalWithMongo._mongoClientPromise = client.connect()
   }
   clientPromise = globalWithMongo._mongoClientPromise
 } else {
+    // todo: figure out elegant solution to minimize the # of conns here, but otherwise development mode is fine
   // In production mode, it's best to not use a global variable.
   client = new MongoClient(uri, options)
   clientPromise = client.connect()
