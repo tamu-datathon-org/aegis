@@ -21,6 +21,7 @@ function Home(): JSX.Element {
   const [lastName, setLastName] = useState('');
   const [age, setAge] = useState('');
   const [country, setCountry] = useState('');
+  const [race, setRace] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [school, setSchool] = useState('');
   const [major, setMajor] = useState('');
@@ -43,6 +44,7 @@ function Home(): JSX.Element {
   const [mlhQ1, setmlhQ1] = useState(false);
   const [mlhQ2, setmlhQ2] = useState(false);
   const [mlhQ3, setmlhQ3] = useState(false);
+  const [liabilityTerms, setLiabilityTerms] = useState(false);
 
   const [resume, setResume] = useState<File | null>(null);
 
@@ -72,9 +74,10 @@ function Home(): JSX.Element {
         if(data.age != null) {
             setAge(data.age);
         }
-
+        
         if(data.country != null) {
             setCountry(data.country);
+            setCountrySearchQuery(data.country);
         }
 
         if(data.phoneNumber != null) {
@@ -104,6 +107,10 @@ function Home(): JSX.Element {
 
         if(data.selfDescribeAns != null) {
           setSelfDescribeAns(data.selfDescribeAns);
+        }
+
+        if(data.race != null) {
+            setRace(data.race);
         }
 
         if(data.experienceLevel != null) {
@@ -166,6 +173,10 @@ function Home(): JSX.Element {
             setmlhQ3(data.mlhQ3);
         }
 
+        if(data.liabilityTerms != null) {
+            setLiabilityTerms(data.liabilityTerms);
+        }
+
         if(data.resume != null) {
             setResume(data.resume);
         }
@@ -191,6 +202,7 @@ function Home(): JSX.Element {
         { variable: classification, label: 'Classification' },
         { variable: anticipatedGradYear, label: 'Anticipated Graduation Year' },
         { variable: gender, label: 'Gender' },
+        { variable: race, label: 'Race/Ethnicity' },
         { variable: hackathonsAttended, label: 'Hackathons Attended' },
         { variable: experienceLevel, label: 'Experience Level' },
         { variable: hasTeam, label: 'Has a Team' },
@@ -214,6 +226,15 @@ function Home(): JSX.Element {
 
     if(!resume)
         missingFields.push("Resume file");
+
+    if(!mlhQ1)
+        missingFields.push("MLH question 1");
+
+    if(!mlhQ2)
+        missingFields.push("MLH question 2");
+
+    if(!liabilityTerms)
+        missingFields.push("TAMU Datathon Talent Release and Liability Terms");
     
     if (missingFields.length > 0) {
         const missingFieldsList = missingFields.join(', ');
@@ -236,6 +257,7 @@ function Home(): JSX.Element {
         anticipatedGradYear,
         gender,
         selfDescribeAns,
+        race,
         hackathonsAttended,
         experienceLevel,
         hasTeam,
@@ -251,14 +273,15 @@ function Home(): JSX.Element {
         mlhQ1,
         mlhQ2,
         mlhQ3,
+        liabilityTerms
       });
 
       const formData = new FormData();
 
       const file = resume;
 
-      const filename = encodeURIComponent(file?.name || "")
-      const fileType = encodeURIComponent(file?.type || "")
+      const filename = encodeURIComponent(file?.name || "");
+      const fileType = encodeURIComponent(file?.type || "");
     
       const res = await fetch(
         `/apply/api/upload-url?fileType=${fileType}&firstName=${firstName}&lastName=${lastName}`
@@ -333,7 +356,7 @@ function Home(): JSX.Element {
               <div className='input-wrapper'>
                 <label htmlFor='country' className = 'requiredField'>Country of Residence:</label>
                 <div className='helperText'>Currently selected country: {country}</div>
-                <input type='text' required id='countrySearchQuery' value={countrySearchQuery} onChange={event => {
+                <input type='text' id='country' value={countrySearchQuery} onChange={event => {
                 // removes autocomplete locally (so it doesn't block our search results)
                 event.target.setAttribute('autocomplete', 'off');
                 setCountrySearchQuery(event.target.value);
@@ -422,7 +445,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='classification' className = 'requiredField'> What classification are you? </label>
-                <select value = {classification} onChange={event => setClassification(event.target.value)}>
+                <select value = {classification} id='classification' onChange={event => setClassification(event.target.value)} required>
                     <option value=''>---------</option>
                     <option value='LessThanSecondary'>Less than Secondary / High School</option>
                     <option value='Secondary'>Secondary / High School</option>
@@ -440,7 +463,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='anticipatedGradYear' className = 'requiredField'> What is your anticipated graduation year?</label>
-                <select value = {anticipatedGradYear} onChange={event => setAnticipatedgradYear(event.target.value)}>
+                <select value = {anticipatedGradYear} id='anticipatedGradYear' onChange={event => setAnticipatedgradYear(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='2023'>2023</option>
                   <option value='2024'>2024</option>
@@ -452,8 +475,8 @@ function Home(): JSX.Element {
               </div>
 
               <div className='input-wrapper'>
-                <label className = 'requiredField'> What's your gender? </label>
-                <select value = {gender} onChange={event => setGender(event.target.value)}>
+                <label htmlFor='gender' className = 'requiredField'> What's your gender? </label>
+                <select value = {gender} id='gender' onChange={event => setGender(event.target.value)}>
                   <option value=''>---------</option>
                   <option value='NA'>Prefer not to answer</option>
                   <option value='M'>Male</option>
@@ -474,11 +497,35 @@ function Home(): JSX.Element {
                 <></>
               )}
 
-              {/* TODO: Add what race(s) do you identify with? */}
+
+             <div className='input-wrapper'>
+                <label htmlFor='race' className = 'requiredField'> What race(s) do you identify with? </label>
+                <select value={race} id='race' onChange={event => setRace(event.target.value)} required>
+                <option value=''>---------</option>
+                <option value='Asian Indian'>Asian Indian</option>
+                <option value='Black or African'>Black or African</option>
+                <option value='Chinese'>Chinese</option>
+                <option value='Filipino'>Filipino</option>
+                <option value='Guamanian or Chamorro'>Guamanian or Chamorro</option>
+                <option value='Hispanic / Latino / Spanish Origin'>Hispanic / Latino / Spanish Origin</option>
+                <option value='Japanese'>Japanese</option>
+                <option value='Korean'>Korean</option>
+                <option value='Middle Eastern'>Middle Eastern</option>
+                <option value='Native American or Alaskan Native'>Native American or Alaskan Native</option>
+                <option value='Native Hawaiian'>Native Hawaiian</option>
+                <option value='Samoan'>Samoan</option>
+                <option value='Vietnamese'>Vietnamese</option>
+                <option value='White'>White</option>
+                <option value='Other Asian (Thai, Cambodian, etc)'>Other Asian (Thai, Cambodian, etc)</option>
+                <option value='Other Pacific Islander'>Other Pacific Islander</option>
+                <option value='Other (Please Specify)'>Other (Please Specify)</option>
+                <option value='Prefer Not to Answer'>Prefer Not to Answer</option>
+                </select>
+              </div>
 
               <div className='input-wrapper'>
-                <label className = 'requiredField'> How many hackathons have you attended? </label>
-                <select value = {hackathonsAttended} onChange={event => setHackathonsAttended(event.target.value)}>
+                <label htmlFor='hackathonsAttended' className = 'requiredField'> How many hackathons have you attended? </label>
+                <select value = {hackathonsAttended} id='hackathonsAttended' onChange={event => setHackathonsAttended(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='0'>This will be my first!</option>
                   <option value='1-3'>1-3</option>
@@ -490,8 +537,8 @@ function Home(): JSX.Element {
 
               {/* TODO forgor */}
               <div className='input-wrapper'>
-                <label className = 'requiredField'> What is your experience level in Data Science? </label>
-                <select value = {experienceLevel} onChange={event => setExperienceLevel(event.target.value)}>
+                <label htmlFor='experienceLevel' className = 'requiredField'> What is your experience level in Data Science? </label>
+                <select value = {experienceLevel} id='experienceLevel' onChange={event => setExperienceLevel(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='Beginner'>Beginner</option>
                   <option value='Advanced'>Advanced</option>
@@ -499,8 +546,8 @@ function Home(): JSX.Element {
               </div>
 
               <div className='input-wrapper'>
-                <label className = 'requiredField'> Do you have a team yet? </label>
-                <select value = {hasTeam} onChange={event => setHasTeam(event.target.value)}>
+                <label htmlFor='hasTeam' className = 'requiredField'> Do you have a team yet? </label>
+                <select id='hasTeam' value = {hasTeam} onChange={event => setHasTeam(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='No'>I do have a team</option>
                   <option value='Yes'>I do not have a team</option>
@@ -508,8 +555,8 @@ function Home(): JSX.Element {
               </div>
 
               <div className='input-wrapper'>
-                <label className = 'requiredField'> How did you hear about TAMU Datathon? </label>
-                <select value = {eventSource} onChange={event => setEventSource(event.target.value)}>
+                <label htmlFor='eventSource' className = 'requiredField'> How did you hear about TAMU Datathon? </label>
+                <select id='eventSource' value = {eventSource} onChange={event => setEventSource(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='Friend'>From a friend</option>
                   <option value='Social Media'>Social media</option>
@@ -523,8 +570,8 @@ function Home(): JSX.Element {
               </div>
               
               <div className='input-wrapper'>
-                <label className = 'requiredField'>What size shirt do you wear?</label>
-                <select value = {shirtSize} onChange={event => setShirtSize(event.target.value)}>
+                <label htmlFor='shirtSize' className = 'requiredField'>What size shirt do you wear?</label>
+                <select id='shirtSize' value = {shirtSize} onChange={event => setShirtSize(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='S'>Unisex S</option>
                   <option value='M'>Unisex M</option>
@@ -552,17 +599,17 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='programmingJoke' className = 'requiredField'> Tell us your best programming joke. </label>
-                <textarea id='programmingJoke' value={programmingJoke} onChange={event => setProgrammingJoke(event.target.value)}/>
+                <textarea id='programmingJoke' required value={programmingJoke} onChange={event => setProgrammingJoke(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='unlimitedResourcesBuild' className = 'requiredField'> What is the one thing you'd build if you had unlimited resources? </label>
-                <textarea id='unlimitedResourcesBuild' value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
+                <textarea id='unlimitedResourcesBuild' required value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='interestReason' className = 'requiredField'> What drives your interest in being a part of TAMU Datathon? </label>
-                <textarea id='interestReason' value={interestReason} onChange={event => setInterestReason(event.target.value)}/>
+                <textarea id='interestReason' required value={interestReason} onChange={event => setInterestReason(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
@@ -577,29 +624,38 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <div style={{fontStyle: 'italic'}}>We are currently in the process of partnering with MLH. The following 3 checkboxes are for this partnership. If we do not end up partnering with MLH, your information will not be shared.</div>
-                <label className="requiredField">
+                <label htmlFor='mlhQ1' className="requiredField">
                     I have read and agree to the <a className="mlh" href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">MLH Code of Conduct</a>.
                 </label>
                 <div>
-                    <input type="checkbox" id="mlhQ1" className="checkBox" checked={mlhQ1} onChange={event => setmlhQ1(event.target.checked)}/>
+                    <input type="checkbox" id="mlhQ1" required className="checkBox" checked={mlhQ1} onChange={event => setmlhQ1(event.target.checked)}/>
                 </div>
               </div>
 
               <div className='input-wrapper'>
-                <label className="requiredField">
+                <label htmlFor='mlhQ2' className="requiredField">
                     I authorize you to share my application / registration information with Major League Hacking for event administration, ranking, and MLH administration in-line with the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>. I further agree to the terms of both the <a className="mlh" href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md">MLH Contest Terms and Conditions</a> and the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
                 </label>
                 <div>
-                    <input type="checkbox" id="mlhQ2" className="checkBox" checked={mlhQ2} onChange={event => setmlhQ2(event.target.checked)}/>
+                    <input type="checkbox" id="mlhQ2" required className="checkBox" checked={mlhQ2} onChange={event => setmlhQ2(event.target.checked)}/>
                 </div>
               </div>
 
               <div className='input-wrapper'>
-                <label>
+                <label htmlFor='mlhQ3'>
                     I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements.
                 </label>
                 <div>
                     <input type="checkbox" id="mlhQ3" className="checkBox" checked={mlhQ3} onChange={event => setmlhQ3(event.target.checked)}/>
+                </div>
+              </div>
+
+              <div className='input-wrapper'>
+                <label htmlFor='liabilityTerms' className="requiredField">
+                    I agree to TAMU Datathon's <a className="mlh" href="https://tamudatathon.com/legal/talent_liability_terms">Talent Release and Liability terms</a>.
+                </label>
+                <div>
+                    <input type="checkbox" id="liabilityTerms" className="checkBox" checked={liabilityTerms} onChange={event => setLiabilityTerms(event.target.checked)}/>
                 </div>
               </div>
 

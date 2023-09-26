@@ -26,6 +26,7 @@ body {
 
 label {
   font-weight: bold;
+  cursor: auto;
   /* color: rgb(247, 220, 220); */
 }
 
