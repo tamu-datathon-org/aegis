@@ -1,40 +1,37 @@
-import { MongoClient, Db } from 'mongodb';
+import { MongoClient } from 'mongodb'
 
-const MONGODB_URI = process.env.MONGODB_URI || '';
-const MONGODB_DB = process.env.MONGODB_DB;
-
-if (MONGODB_URI === '') {
-  throw new Error('Please define the MONGODB_URI environment variable inside .env.local');
+if (!process.env.MONGODB_URI) {
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"')
 }
 
-if (MONGODB_DB === '') {
-  throw new Error('Please define the MONGODB_DB environment variable inside .env.local');
+const uri = process.env.MONGODB_URI
+const options = {
+    // todo figure out how to make the connection die quickly since in prod it will still make mass conns
 }
 
-export class MongoDBSingleton {
-  private static instance: MongoClient | null = null;
+let client
+let clientPromise: Promise<MongoClient>
 
-  // Define timeout options
-  private static connectionOptions = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    connectTimeoutMS: 5000, // Example: 10 seconds
-    socketTimeoutMS: 5000, // Example: 5 seconds
-    maxPoolSize: 1
-  };
-
-  public static async getInstance(): Promise<Db> {
-    if (!MongoDBSingleton.instance) {
-      MongoDBSingleton.instance = await MongoClient.connect(MONGODB_URI, MongoDBSingleton.connectionOptions);
-    }
-
-    return MongoDBSingleton.instance.db(MONGODB_DB);
+if (process.env.NODE_ENV === 'development') {
+  // In development mode, use a global variable so that the value
+  // is preserved across module reloads caused by HMR (Hot Module Replacement).
+  let globalWithMongo = global as typeof globalThis & {
+    _mongoClientPromise?: Promise<MongoClient>
   }
 
-  public static async closeConnection() {
-    if (MongoDBSingleton.instance) {
-      await MongoDBSingleton.instance.close();
-      MongoDBSingleton.instance = null;
-    }
+  if (!globalWithMongo._mongoClientPromise) {
+      console.log("created mongodb instance");
+    client = new MongoClient(uri, options)
+    globalWithMongo._mongoClientPromise = client.connect()
   }
+  clientPromise = globalWithMongo._mongoClientPromise
+} else {
+  // In production mode, it's best to not use a global variable.
+  client = new MongoClient(uri, options)
+  clientPromise = client.connect()
+  console.log("created mongodb instance prod");
 }
+
+// Export a module-scoped MongoClient promise. By doing this in a
+// separate module, the client can be shared across functions.
+export default clientPromise;

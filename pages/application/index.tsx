@@ -460,7 +460,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only):</label>
-                <input type="file" accept="application/pdf" onChange={handleFileChange}/>
+                <input type="file" required accept="application/pdf" onChange={handleFileChange}/>
               </div>
 
               <div className='input-wrapper'>

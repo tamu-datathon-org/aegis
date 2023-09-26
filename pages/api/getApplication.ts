@@ -1,13 +1,14 @@
 import { authenticatedRoute } from '../../libs/middleware'
-import { MongoDBSingleton } from '../../utils/db';
+import clientPromise from '../../utils/db';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import nextConnect from 'next-connect'
 
 const handler = nextConnect();
 handler.get(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, tdUser) => {
-    let db;
+    let client;
     try {
-        db= await MongoDBSingleton.getInstance();
+        client = await clientPromise;
+        const db = client.db();
         const result = await db.collection('applications').findOne({ email: tdUser.email });
         if(result != null)
             res.status(200).json( result );
@@ -18,9 +19,6 @@ handler.get(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, t
     console.log(error);
     res.status(500).json({ message: 'Error fetching application', error });
   } finally {
-    if(db) {
-        await MongoDBSingleton.closeConnection();
-    }
   }
 }));
 

@@ -1,14 +1,16 @@
+import Client from 'mailgun.js/client';
 import { authenticatedRoute } from '../../libs/middleware'
-import { MongoDBSingleton } from '../../utils/db';
+import clientPromise from '../../utils/db';
 import { VercelRequest, VercelResponse } from '@vercel/node';
 import nextConnect from 'next-connect';
 
 const handler = nextConnect();
 handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, tdUser) => {
-    let db;
+    let client;
     try {
-        db = await MongoDBSingleton.getInstance();
-        const data = req.body;
+        client = await clientPromise;
+        const db = client.db();
+          const data = req.body;
         
         const result = await db.collection('applications').updateOne(
             { email: tdUser.email },
@@ -24,9 +26,6 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
     console.log(error);
     res.status(500).json({ message: 'Error creating document', error });
   } finally {
-    if(db) {
-        await MongoDBSingleton.closeConnection();
-    }
   }
 }));
 
