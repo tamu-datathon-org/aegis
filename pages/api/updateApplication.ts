@@ -10,7 +10,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
     try {
         client = await clientPromise;
         const db = client.db();
-          const data = req.body;
+        const data = req.body;
         
         const result = await db.collection('applications').updateOne(
             { email: tdUser.email },
@@ -22,11 +22,10 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
         message: 'Document created successfully',
         result: result,
         });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: 'Error creating document', error });
-  } finally {
-  }
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ message: 'Error creating document', error });
+    }
 }));
 
 export default handler;
