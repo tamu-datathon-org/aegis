@@ -54,8 +54,8 @@ function Home(): JSX.Element {
     return (
       <div>
         <h2>Size Counts</h2>
-        {sizeCounts.map((size) => (
-          <p>{size.size}: {size.count}
+        {sizeCounts.map((size, index) => (
+          <p key={index}>{size.size}: {size.count}
           </p> 
         ))
         }
