@@ -43,8 +43,23 @@ function Home(): JSX.Element {
   }, [])
 
   const Stats = () => {
+    const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
+    const sizeCounts = sizes.map((size) => {
+      return {
+        size: size,
+        count: applicants.filter((applicant) => {
+          return (applicant.shirtSize === size);
+      }).length
+    }});
     return (
-      <div>Stats</div>
+      <div>
+        <h2>Size Counts</h2>
+        {sizeCounts.map((size) => (
+          <p>{size.size}: {size.count}
+          </p> 
+        ))
+        }
+      </div>
     );
   };
 
