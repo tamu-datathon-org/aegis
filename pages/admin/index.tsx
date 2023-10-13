@@ -43,6 +43,8 @@ function Home(): JSX.Element {
   }, [])
 
   const Stats = () => {
+    const totalApplicants = applicants.length;
+
     const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
     const sizeCounts = sizes.map((size) => {
       return {
@@ -53,7 +55,8 @@ function Home(): JSX.Element {
     }});
     return (
       <div>
-        <h2>Size Counts</h2>
+        <h6>Total Applicants: {totalApplicants}</h6>
+        <h6>Size Counts</h6>
         {sizeCounts.map((size, index) => (
           <p key={index}>{size.size}: {size.count}
           </p> 
