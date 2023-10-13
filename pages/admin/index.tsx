@@ -43,6 +43,9 @@ function Home(): JSX.Element {
   }, [])
 
   const Stats = () => {
+    //total applicants
+    const totalApplicants = applicants.length;
+    //shirt sizes
     const sizes = ['S', 'M', 'L', 'XL', 'XXL'];
     const sizeCounts = sizes.map((size) => {
       return {
@@ -51,14 +54,26 @@ function Home(): JSX.Element {
           return (applicant.shirtSize === size);
       }).length
     }});
+    //vegetarians
+    const numVegetarianVegan = applicants.filter((applicant) => {
+        const lowerRestrictions = applicant.dietaryRestrictions.toLowerCase();
+        return (lowerRestrictions.indexOf("vegetarian") > -1 || lowerRestrictions.indexOf("vegan") > -1);
+    }).length;
+    const totalGradStudents = applicants.filter((applicant) => {
+      return applicant.classification === "Graduate";
+    }).length;
+
     return (
       <div>
-        <h2>Size Counts</h2>
+        <h6>Total Applicants: {totalApplicants}</h6>
+        <h6>Total Grad Students: {totalGradStudents}</h6>
+        <h6>Size Counts</h6>
         {sizeCounts.map((size, index) => (
           <p key={index}>{size.size}: {size.count}
           </p> 
         ))
         }
+        <h6>Vegetarian/Vegan: {numVegetarianVegan}</h6>
       </div>
     );
   };
