@@ -77,8 +77,8 @@ function Home(): JSX.Element {
       <div>
         <h6>Total Applicants: {totalApplicants}</h6>
         <h6>Total Grad Students: {totalGradStudents}</h6>
-        <h6>Shirt Size Counts:</h6>
         <h6>Vegetarian/Vegan: {numVegetarianVegan}</h6>
+        <h6>Shirt Size Counts:</h6>
         {sizeCounts.map((size, index) => (
           <p key={index}>{size.size}: {size.count}
           </p> 
