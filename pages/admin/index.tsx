@@ -211,7 +211,7 @@ function Home(): JSX.Element {
       <Navbar/>
       <div className = "mainContent">
         <h1>ADMIN</h1>
-        <div className="border-gradient border-gradient-purple" style={{alignItems: "center", height: "400px", padding: "10px"}}>
+        <div className="border-gradient border-gradient-purple" style={{alignItems: "center", padding: "10px"}}>
 
             <div style={{display: "flex", flexDirection: "row", justifyContent: "center", marginBottom: "50px"}}>
             <button onClick={() => handleClick("stats")}>Stats</button>
