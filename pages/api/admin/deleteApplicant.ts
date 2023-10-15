@@ -17,8 +17,8 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                 res.status(400).json({ message: 'No email provided or body has too many keys' });
             }
             else {
-                const result = await db.collection('applications').deleteOne({ email: data.email });
-                res.status(200).json({message: `Successfully delete ${data.email} applicant`, result: result});
+                // const result = await db.collection('applications').deleteOne({ email: data.email });
+                // res.status(200).json({message: `Successfully delete ${data.email} applicant`, result: result});
             }
 
         } catch (error) {
