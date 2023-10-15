@@ -17,17 +17,18 @@ function Home(): JSX.Element {
     }
   }, [status])
 
-  useEffect(() => {
-    const fetchAllApplications = async () => {
-      try {
-      const response = await fetch('/apply/api/admin/getAllApplications');
-      const data = await response.json();
-      setApplicants(data);
-      } catch (error) {
-        console.error(error);
-      }
+  const fetchAllApplications = async () => {
+    try {
+    const response = await fetch('/apply/api/admin/getAllApplications');
+    const data = await response.json();
+    setApplicants(data);
+    } catch (error) {
+      console.error(error);
     }
-    fetchAllApplications();
+  }
+
+  useEffect(() => {
+      fetchAllApplications();
   }, [])
 
   useEffect(() => {
@@ -126,6 +127,8 @@ function Home(): JSX.Element {
             "Content-Type": "application/json",
           },
         });
+
+        fetchAllApplications();
       } catch (err) {
         console.error(err)
       }
@@ -140,6 +143,8 @@ function Home(): JSX.Element {
             "Content-Type": "application/json",
           },
         });
+
+        fetchAllApplications();
       } catch(err) {
         console.error(err)
       }

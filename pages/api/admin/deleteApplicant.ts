@@ -4,7 +4,7 @@ import { VercelRequest, VercelResponse } from '@vercel/node';
 import nextConnect from 'next-connect'
 
 const handler = nextConnect();
-handler.delete(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, tdUser) => {
+handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, tdUser) => {
     if(tdUser?.isAdmin) {
         let client;
         try {
