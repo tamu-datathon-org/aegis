@@ -84,6 +84,7 @@ function Home(): JSX.Element {
           </p> 
         ))
         }
+        <h6>Applicants By School:</h6>
         {Object.keys(schoolCounts).map(school => (
           <p key={school}>{school}: {schoolCounts[school]}</p>
         ))}
