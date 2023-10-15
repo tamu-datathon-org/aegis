@@ -59,21 +59,34 @@ function Home(): JSX.Element {
         const lowerRestrictions = applicant.dietaryRestrictions.toLowerCase();
         return (lowerRestrictions.indexOf("vegetarian") > -1 || lowerRestrictions.indexOf("vegan") > -1);
     }).length;
+    //grad students
     const totalGradStudents = applicants.filter((applicant) => {
       return applicant.classification === "Graduate";
     }).length;
-
+    //applicants by school
+    const schoolCounts: Record<string, number> = {};
+    applicants.forEach((applicant) => {
+      if(schoolCounts[applicant.school] !== undefined) {
+        schoolCounts[applicant.school] += 1;
+      }
+      else {
+        schoolCounts[applicant.school] = 1;
+      }
+    });
     return (
       <div>
         <h6>Total Applicants: {totalApplicants}</h6>
         <h6>Total Grad Students: {totalGradStudents}</h6>
-        <h6>Size Counts</h6>
+        <h6>Shirt Size Counts:</h6>
+        <h6>Vegetarian/Vegan: {numVegetarianVegan}</h6>
         {sizeCounts.map((size, index) => (
           <p key={index}>{size.size}: {size.count}
           </p> 
         ))
         }
-        <h6>Vegetarian/Vegan: {numVegetarianVegan}</h6>
+        {Object.keys(schoolCounts).map(school => (
+          <p key={school}>{school}: {schoolCounts[school]}</p>
+        ))}
       </div>
     );
   };
