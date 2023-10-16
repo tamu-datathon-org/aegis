@@ -289,7 +289,6 @@ function Home(): JSX.Element {
       )
       const { url, fields } = await res.json()
       
-      console.log(url);
       Object.entries({ ...fields, file }).forEach(([key, value]) => {
         formData.append(key, value as string);
       });

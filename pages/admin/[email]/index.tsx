@@ -44,6 +44,7 @@ const ApplicantPage = () => {
     const [liabilityTerms, setLiabilityTerms] = useState(false);
   
     const [resume, setResume] = useState<File | null>(null);
+    const [resumeLink, setResumeLink] = useState('');
   
     useEffect(() => {
         if (status == UserCurrentStatus.LoggedOut) {
@@ -177,6 +178,10 @@ const ApplicantPage = () => {
   
           if(data.resume != null) {
               setResume(data.resume);
+          }
+
+          if(data.resumeLink != null) {
+              setResumeLink(data.resumeLink);
           }
   
         } catch (error) {
@@ -443,8 +448,9 @@ const ApplicantPage = () => {
           </div>
 
           <div className='input-wrapper'>
-            <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only, 1MB max):</label>
-            <input disabled type="file" required accept="application/pdf"/>
+            <label htmlFor='address' className = 'requiredField'>View Applicant Resume:</label>
+            <br/>
+            <a className='mlh' href={resumeLink} target="_blank">View Resume</a>
           </div>
 
           <div className='input-wrapper'>
@@ -454,27 +460,27 @@ const ApplicantPage = () => {
 
           <div className='input-wrapper'>
             <label htmlFor='programmingJoke' className = 'requiredField'> Tell us your best programming joke. </label>
-            <textarea id='programmingJoke' required value={programmingJoke} onChange={event => setProgrammingJoke(event.target.value)}/>
+            <textarea disabled id='programmingJoke' required value={programmingJoke} onChange={event => setProgrammingJoke(event.target.value)}/>
           </div>
 
           <div className='input-wrapper'>
             <label htmlFor='unlimitedResourcesBuild' className = 'requiredField'> What is the one thing you'd build if you had unlimited resources? </label>
-            <textarea id='unlimitedResourcesBuild' required value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
+            <textarea disabled id='unlimitedResourcesBuild' required value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
           </div>
 
           <div className='input-wrapper'>
             <label htmlFor='interestReason' className = 'requiredField'> What drives your interest in being a part of TAMU Datathon? </label>
-            <textarea id='interestReason' required value={interestReason} onChange={event => setInterestReason(event.target.value)}/>
+            <textarea disabled id='interestReason' required value={interestReason} onChange={event => setInterestReason(event.target.value)}/>
           </div>
 
           <div className='input-wrapper'>
             <label htmlFor='dietaryRestrictions'>Do you require any special accommodations at the event? Please list all dietary restrictions here.</label>
-            <textarea id='dietaryRestrictions' value={dietaryRestrictions} onChange={event => setDietaryRestrictions(event.target.value)}/>
+            <textarea disabled id='dietaryRestrictions' value={dietaryRestrictions} onChange={event => setDietaryRestrictions(event.target.value)}/>
           </div>
 
           <div className='input-wrapper'>
             <label htmlFor='extraInfo'>Anything else you would like us to know?</label>
-            <textarea id='extraInfo' value={extraInfo} onChange={event => setExtraInfo(event.target.value)}/>
+            <textarea disabled id='extraInfo' value={extraInfo} onChange={event => setExtraInfo(event.target.value)}/>
           </div>
 
           <div className='input-wrapper'>

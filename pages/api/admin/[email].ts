@@ -15,6 +15,12 @@ handler.get(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, t
             const participantEmail = decodeURI(req.query.email as string);
 
             const result = await db.collection('applications').findOne({ email: participantEmail });
+
+            // adding field to result called resume link
+            if(result) {
+                const resumeLink = 'https://td-2023-resumes.s3.amazonaws.com/' + result.authId + '_Resume.pdf';
+                result.resumeLink = resumeLink;
+            }
             
             if(result != null)
                 res.status(200).json( result );
