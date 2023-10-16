@@ -246,6 +246,7 @@ function Home(): JSX.Element {
     try {
         const response = await axios.post('/apply/api/updateApplication', {
         appStatus: 'Submitted',
+        authId: user?.authId,
         firstName,
         lastName,
         age,

@@ -15,6 +15,7 @@ handler.get(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, t
             const participantEmail = decodeURI(req.query.email as string);
 
             const result = await db.collection('applications').findOne({ email: participantEmail });
+            
             if(result != null)
                 res.status(200).json( result );
             else {

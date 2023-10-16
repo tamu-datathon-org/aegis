@@ -156,15 +156,6 @@ function Home(): JSX.Element {
       // open in new window
         window.open(`/apply/admin/${email}`, '_blank');
     }
-
-    if(!user?.isAdmin) {
-        return (
-            <div>
-            <h1>You are not authorized to view this service.</h1>
-            </div>
-        )
-    }
-
     
     return (
       <div>
@@ -233,6 +224,15 @@ function Home(): JSX.Element {
 
   const handleClick = (buttonLabel: SetStateAction<string>) => {
     setSelected(buttonLabel)
+  }
+
+  
+  if(!user?.isAdmin) {
+    return (
+        <div>
+        <h1>You are not authorized to view this service.</h1>
+        </div>
+    )
   }
 
   return (
