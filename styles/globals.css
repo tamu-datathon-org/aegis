@@ -175,13 +175,15 @@ td {
   /* text-align: center; */
 }
 th {
-  background: #74afb9;
+  background: #40d6ff;
   color: #fff;
+  text-align: left;
 }
 td {
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis;
+  word-wrap: break-word;
+  text-align: left;
 }
 
 .input-wrapper {

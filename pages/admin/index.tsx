@@ -161,56 +161,68 @@ function Home(): JSX.Element {
       <div>
         <input value = {searchTerm} type="text" placeholder="Search by name" onChange={handleSearch} style={{marginBottom: "10px", padding: "0px", width: "350px"}} />
         {/* <button onClick={() => setSearchTerm('')}>Clear</button> */}
-        <table>
-          <tr>
-            <th>Name</th>
-            <th>Email</th>
-            <th>School</th>
-            <th>Grad</th>
-            <th>Classification</th>
-            <th>Application Status</th>
-            <th>Actions</th>
-          </tr>
-          {filteredApplicants.map((applicant) => (
-            <tr key={applicant.email}>
-              <td>{applicant.firstName} {applicant.lastName} </td>
-              <td>{applicant.email}</td>
-              <td>{applicant.school}</td>
-              <td>{applicant.anticipatedGradYear}</td>
-              <td>{applicant.classification}</td>
-              <td>{applicant.appStatus}</td>
-              <td>
-                <div style={{display: "flex", justifyContent: "space-evenly", columnGap: "8px"}}>
-                  <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {acceptApplicant(applicant.email)}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-                  </button>
-
-                  <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {rejectApplicant(applicant.email)}}>
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                  </button>
-
-                  {/* <button type='button' style={{width: "24px", height: "24px"}} onClick={() => deleteApplicant(applicant.email)}>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                    </svg>
-                  </button> */}
-
-                  <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {viewApplicant(applicant.email)}}>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" enable-background="new 0 0 512 512">
-                    <g>
-                        <path d="m494.8,241.4l-50.6-49.4c-50.1-48.9-116.9-75.8-188.2-75.8s-138.1,26.9-188.2,75.8l-50.6,49.4c-11.3,12.3-4.3,25.4 0,29.2l50.6,49.4c50.1,48.9 116.9,75.8 188.2,75.8s138.1-26.9 188.2-75.8l50.6-49.4c4-3.8 11.7-16.4 0-29.2zm-238.8,84.4c-38.5,0-69.8-31.3-69.8-69.8 0-38.5 31.3-69.8 69.8-69.8 38.5,0 69.8,31.3 69.8,69.8 0,38.5-31.3,69.8-69.8,69.8zm-195.3-69.8l35.7-34.8c27-26.4 59.8-45.2 95.7-55.4-28.2,20.1-46.6,53-46.6,90.1 0,37.1 18.4,70.1 46.6,90.1-35.9-10.2-68.7-29-95.7-55.3l-35.7-34.7zm355,34.8c-27,26.3-59.8,45.1-95.7,55.3 28.2-20.1 46.6-53 46.6-90.1 0-37.2-18.4-70.1-46.6-90.1 35.9,10.2 68.7,29 95.7,55.4l35.6,34.8-35.6,34.7z"/>
-                    </g>
-                    </svg>
-                  </button>
-                </div>
-              </td>
+        <table> 
+          <tbody>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>School</th>
+                <th>Grad</th>
+                <th>Age</th>
+                <th>Application Status</th>
+                <th>Actions</th>
             </tr>
+            {filteredApplicants.map((applicant) => (
+                <tr key={applicant.email}>
+                <td>{applicant.firstName} {applicant.lastName} </td>
+                <td>{applicant.email}</td>
+                <td>{applicant.school}</td>
+                <td>{applicant.anticipatedGradYear}</td>
+
+                {applicant.age ? (
+                    applicant.age < 18 || applicant.age == '16-' ? (
+                        <td style={{color: "red"}}>{applicant.age} !! (under 18)</td>
+                    ) : (
+                        <td>{applicant.age}</td>
+                    )
+                ) : (
+                    <td style={{color: "blue"}}>{applicant.age} Missing. Resubmit plz</td>
+                )}
+
+                <td>{applicant.appStatus}</td>
+                <td>
+                    <div style={{display: "flex", justifyContent: "space-evenly", columnGap: "8px"}}>
+                    <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {acceptApplicant(applicant.email)}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                        </svg>
+                    </button>
+
+                    <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {rejectApplicant(applicant.email)}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    </button>
+
+                    {/* <button type='button' style={{width: "24px", height: "24px"}} onClick={() => deleteApplicant(applicant.email)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                        </svg>
+                    </button> */}
+
+                    <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {viewApplicant(applicant.email)}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" enableBackground="new 0 0 512 512">
+                        <g>
+                            <path d="m494.8,241.4l-50.6-49.4c-50.1-48.9-116.9-75.8-188.2-75.8s-138.1,26.9-188.2,75.8l-50.6,49.4c-11.3,12.3-4.3,25.4 0,29.2l50.6,49.4c50.1,48.9 116.9,75.8 188.2,75.8s138.1-26.9 188.2-75.8l50.6-49.4c4-3.8 11.7-16.4 0-29.2zm-238.8,84.4c-38.5,0-69.8-31.3-69.8-69.8 0-38.5 31.3-69.8 69.8-69.8 38.5,0 69.8,31.3 69.8,69.8 0,38.5-31.3,69.8-69.8,69.8zm-195.3-69.8l35.7-34.8c27-26.4 59.8-45.2 95.7-55.4-28.2,20.1-46.6,53-46.6,90.1 0,37.1 18.4,70.1 46.6,90.1-35.9-10.2-68.7-29-95.7-55.3l-35.7-34.7zm355,34.8c-27,26.3-59.8,45.1-95.7,55.3 28.2-20.1 46.6-53 46.6-90.1 0-37.2-18.4-70.1-46.6-90.1 35.9,10.2 68.7,29 95.7,55.4l35.6,34.8-35.6,34.7z"/>
+                        </g>
+                        </svg>
+                    </button>
+                    </div>
+                </td>
+                </tr>
             
           ))}
+          </tbody>
         </table>
       </div>
     );
