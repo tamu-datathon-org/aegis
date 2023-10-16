@@ -51,6 +51,7 @@ export default class MyDocument extends Document {
               `
             }}
           />
+          <link rel="icon" type="image/x-icon" href="https://tamudatathon.com/static/img/favicons/favicon.ico"/>
         </Head>
         <body>
           <Main />
