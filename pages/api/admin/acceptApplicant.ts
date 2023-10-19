@@ -88,7 +88,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
 
                 const qrCodeData = { email: data.email, firstName: data.firstName, lastName: data.lastName, appStatus: 'Accepted' };
                 const qrCodeBuffer = await QRCode.toBuffer(JSON.stringify(qrCodeData));  
-                console.log(qrCodeData);
+                // console.log(qrCodeData);
                 
                 const qrCodeAttachment = new mailgun.Attachment({
                     data: qrCodeBuffer,
@@ -106,6 +106,22 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                 mailgun.messages().send(mailData, (error, body) => {
                     if (error) {
                         console.log(error);
+                    }
+                });
+
+                // Add the user to the mailing list
+                const mailingListAddress = '2023_accepted_applicants@mg.tamudatathon.com';
+                const member = {
+                    subscribed: true,
+                    address: data.email,
+                    name: `${data.firstName} ${data.lastName}`
+                };
+
+                mailgun.lists(mailingListAddress).members().create(member, (error, body) => {
+                    if (error) {
+                        console.log(`Error adding ${data.email} to the mailing list:`, error);
+                    } else {
+                        console.log(`${data.email} added to the mailing list:`);
                     }
                 });
 
