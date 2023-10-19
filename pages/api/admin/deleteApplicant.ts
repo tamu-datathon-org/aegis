@@ -13,7 +13,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
             const data = req.body;
 
             // make sure there's only 1 key in the body (email) and that it exists
-            if (data === null || data.email === null || Object.keys(data).length > 1) {
+            if (data === null || data.email === null) {
                 res.status(400).json({ message: 'No email provided or body has too many keys' });
             }
             else {

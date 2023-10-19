@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Image from 'next/image';
 import { Navbar } from '../../components/Navbar';
+import axios from 'axios';
 
 function Home(): JSX.Element {
   const { user, status } = useActiveUser();
@@ -106,13 +107,13 @@ function Home(): JSX.Element {
 
     const deleteApplicant = async (email: string) => {
       try {
-        await fetch("/apply/api/admin/deleteApplicant", {
-          method: "POST",
-          body: JSON.stringify({email: email}),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+        // await fetch("/apply/api/admin/deleteApplicant", {
+        //   method: "POST",
+        //   body: JSON.stringify({email: email}),
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        // });
 
         fetchAllApplications();
       } catch(err) {
@@ -120,11 +121,17 @@ function Home(): JSX.Element {
       }
     }
 
-    const rejectApplicant = async (email: string) => {
+    const rejectApplicant = async (email: string, firstName: string, lastName: string) => {
       try {
+
+        const shouldReject = confirm(`Are you sure you want to reject ${firstName} ${lastName}?`);
+        if(!shouldReject) {
+          return;
+        }
+
         await fetch("/apply/api/admin/rejectApplicant", {
           method: "POST",
-          body: JSON.stringify({email: email}),
+          body: JSON.stringify({email: email, firstName: firstName, lastName: lastName}),
           headers: {
             "Content-Type": "application/json",
           },
@@ -136,11 +143,17 @@ function Home(): JSX.Element {
       }
     }
 
-    const acceptApplicant = async (email: string) => {
+    const acceptApplicant = async (email: string, firstName: string, lastName: string) => {
       try {
+
+        const shouldAccept = window.confirm(`Are you sure you want to accept ${firstName} ${lastName}?`);
+        if(!shouldAccept) {
+          return;
+        }
+
         await fetch("/apply/api/admin/acceptApplicant", {
           method: "POST",
-          body: JSON.stringify({email: email}),
+          body: JSON.stringify({email: email, firstName: firstName, lastName: lastName}),
           headers: {
             "Content-Type": "application/json",
           },
@@ -192,13 +205,13 @@ function Home(): JSX.Element {
                 <td>{applicant.appStatus}</td>
                 <td>
                     <div style={{display: "flex", justifyContent: "space-evenly", columnGap: "8px"}}>
-                    <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {acceptApplicant(applicant.email)}}>
+                    <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {acceptApplicant(applicant.email, applicant.firstName, applicant.lastName)}}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                         </svg>
                     </button>
 
-                    <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {rejectApplicant(applicant.email)}}>
+                    <button type='button' style={{width: "24px", height: "24px"}} onClick={() => {rejectApplicant(applicant.email, applicant.firstName, applicant.lastName)}}>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
