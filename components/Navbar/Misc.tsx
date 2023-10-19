@@ -47,7 +47,7 @@ export const Navbar: React.FC = () => {
         <ReactNav>
           <UI.NavLink href="/">Home</UI.NavLink>
           <UI.NavLink href="/apply">Dashboard</UI.NavLink>
-          <UI.NavLink href="/apply/application">Application</UI.NavLink>
+          {/* <UI.NavLink href="/apply/application">Application</UI.NavLink> */}
           {user?.isAdmin ? ( <UI.NavLink href="/apply/admin">Admin</UI.NavLink> ) : null}
         </ReactNav>
         <span
