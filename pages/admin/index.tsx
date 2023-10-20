@@ -56,6 +56,16 @@ function Home(): JSX.Element {
           return (applicant.shirtSize === size);
       }).length
     }});
+    //beginner/advanced
+    const experienceLevels = ['Beginner', 'Advanced'];
+    const experienceCounts = experienceLevels.map((level) => {
+      return {
+        level:level,
+        count: applicants.filter((applicant) => {
+          return (applicant.experienceLevel === level);
+        }).length
+      }
+    });
     //vegetarians
     const numVegetarianVegan = applicants.filter((applicant) => {
         const lowerRestrictions = applicant.dietaryRestrictions.toLowerCase();
@@ -90,6 +100,13 @@ function Home(): JSX.Element {
         {Object.keys(schoolCounts).map(school => (
           <p key={school}>{school}: {schoolCounts[school]}</p>
         ))}
+        <h6>Experience Levels:</h6>
+        {
+          experienceCounts.map((level, index) => (
+            <p key={index}>{level.level}: {level.count}
+            </p>
+          ))
+        }
       </div>
     );
   };
