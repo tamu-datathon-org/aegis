@@ -65,6 +65,18 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                                     font-weight: normal;
                                     color: black;
                                     margin-bottom: 20px;">
+                                    Please join our <a href="https://tamudatathon.com/guild">Discord</a> to receive updates for our event and find our carpool Discord channel!
+                                </p>
+                                <p style="line-height: 20px; -webkit-font-smoothing: antialiased;
+                                    font-weight: normal;
+                                    color: black;
+                                    margin-bottom: 20px;">
+                                    To encourage carpooling to the venue, we will give fast-passes for food and t-shirt lines at the event for drivers who carpool! If you're driving to the event, take a friend or two and cash in on these benefits! More details will be provided in the Discord soon.
+                                </p>
+                                <p style="line-height: 20px; -webkit-font-smoothing: antialiased;
+                                    font-weight: normal;
+                                    color: black;
+                                    margin-bottom: 20px;">
                                     We look forward to seeing you at the hackathon. If you have any questions or concerns, please don't hesitate to contact us at <a href="mailto:connect@tamudatathon.com">connect@tamudatathon.com</a>
                                 </p>
                                 <p style="line-height: 20px; -webkit-font-smoothing: antialiased;
@@ -83,7 +95,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                             </div>
                         </div>
                     </body>
-                </html>
+                </html>           
                 `;                
 
                 const qrCodeData = { email: data.email, firstName: data.firstName, lastName: data.lastName, appStatus: 'Accepted' };
