@@ -329,17 +329,17 @@ function Home(): JSX.Element {
             <div className = 'vertical' style={{alignItems: 'center'}}>
               <div className='input-wrapper'>
                 <label htmlFor='firstName' className = 'requiredField'>First name:</label>
-                <input disabled type='text' required value={firstName} id='firstName' onChange={event => setFirstName(event.target.value)}/>
+                <input type='text' required value={firstName} id='firstName' onChange={event => setFirstName(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='lastName' className = 'requiredField'>Last name:</label>
-                <input disabled type='text' required value={lastName} id='lastName' onChange={event => setLastName(event.target.value)}/>
+                <input type='text' required value={lastName} id='lastName' onChange={event => setLastName(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='age' className = 'requiredField'>Age:</label>
-                <select disabled id="age" value={age} onChange={event => setAge(event.target.value)} required>
+                <select id="age" value={age} onChange={event => setAge(event.target.value)} required>
                     <option value=''>---------</option>
                     <option value="16-">16 or younger</option>
                     <option value="17">17</option>
@@ -356,7 +356,7 @@ function Home(): JSX.Element {
               <div className='input-wrapper'>
                 <label htmlFor='country' className = 'requiredField'>Country of Residence:</label>
                 <div className='helperText'>Currently selected country: {country}</div>
-                <input disabled type='text' id='country' value={countrySearchQuery} onChange={event => {
+                <input type='text' id='country' value={countrySearchQuery} onChange={event => {
                 // removes autocomplete locally (so it doesn't block our search results)
                 event.target.setAttribute('autocomplete', 'off');
                 setCountrySearchQuery(event.target.value);
@@ -375,14 +375,14 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='phoneNumber'>Phone number:</label>
-                <input disabled type='text' value={phoneNumber} id='phoneNumber' onChange={event => setPhoneNumber(event.target.value)}/>
+                <input type='text' value={phoneNumber} id='phoneNumber' onChange={event => setPhoneNumber(event.target.value)}/>
               </div>
 
 
               <div className='input-wrapper'>
                 <label htmlFor='searchQuery' className = 'requiredField'> What school do you go to? </label>
                 <div className='helperText'>Currently selected school: {school}</div>
-                <input disabled type='text' required id='searchQuery' value={searchQuery} onChange={event => {
+                <input type='text' required id='searchQuery' value={searchQuery} onChange={event => {
                 // removes autocomplete locally (so it doesn't block our search results)
                 event.target.setAttribute('autocomplete', 'off');
                 setSearchQuery(event.target.value);
@@ -401,7 +401,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='major' className = 'requiredField'> What's your major? </label>
-                <select disabled id='major' value={major} onChange={(event) => setMajor(event.target.value)} required>
+                <select id='major' value={major} onChange={(event) => setMajor(event.target.value)} required>
                     <option value=''>---------</option>
                     <option value='Computer science, computer engineering, or software engineering'>
                         Computer science, computer engineering, or software engineering
@@ -445,7 +445,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='classification' className = 'requiredField'> What classification are you? </label>
-                <select disabled value = {classification} id='classification' onChange={event => setClassification(event.target.value)} required>
+                <select value = {classification} id='classification' onChange={event => setClassification(event.target.value)} required>
                     <option value=''>---------</option>
                     <option value='LessThanSecondary'>Less than Secondary / High School</option>
                     <option value='Secondary'>Secondary / High School</option>
@@ -463,7 +463,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='anticipatedGradYear' className = 'requiredField'> What is your anticipated graduation year?</label>
-                <select disabled value = {anticipatedGradYear} id='anticipatedGradYear' onChange={event => setAnticipatedgradYear(event.target.value)} required>
+                <select value = {anticipatedGradYear} id='anticipatedGradYear' onChange={event => setAnticipatedgradYear(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='2023'>2023</option>
                   <option value='2024'>2024</option>
@@ -476,7 +476,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='gender' className = 'requiredField'> What's your gender? </label>
-                <select disabled value = {gender} id='gender' onChange={event => setGender(event.target.value)}>
+                <select value = {gender} id='gender' onChange={event => setGender(event.target.value)}>
                   <option value=''>---------</option>
                   <option value='NA'>Prefer not to answer</option>
                   <option value='M'>Male</option>
@@ -490,7 +490,7 @@ function Home(): JSX.Element {
                 <>
                   <div className='input-wrapper'>
                     <label> Please self-describe </label>
-                    <input disabled type = 'text' value={selfDescribeAns} onChange={event => setSelfDescribeAns(event.target.value)} placeholder='Please self-describe' />
+                    <input type = 'text' value={selfDescribeAns} onChange={event => setSelfDescribeAns(event.target.value)} placeholder='Please self-describe' />
                   </div>
                 </>
               ) : (
@@ -500,7 +500,7 @@ function Home(): JSX.Element {
 
              <div className='input-wrapper'>
                 <label htmlFor='race' className = 'requiredField'> What race(s) do you identify with? </label>
-                <select disabled value={race} id='race' onChange={event => setRace(event.target.value)} required>
+                <select value={race} id='race' onChange={event => setRace(event.target.value)} required>
                 <option value=''>---------</option>
                 <option value='Asian Indian'>Asian Indian</option>
                 <option value='Black or African'>Black or African</option>
@@ -525,7 +525,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='hackathonsAttended' className = 'requiredField'> How many hackathons have you attended? </label>
-                <select disabled value = {hackathonsAttended} id='hackathonsAttended' onChange={event => setHackathonsAttended(event.target.value)} required>
+                <select value = {hackathonsAttended} id='hackathonsAttended' onChange={event => setHackathonsAttended(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='0'>This will be my first!</option>
                   <option value='1-3'>1-3</option>
@@ -538,7 +538,7 @@ function Home(): JSX.Element {
               {/* TODO forgor */}
               <div className='input-wrapper'>
                 <label htmlFor='experienceLevel' className = 'requiredField'> What is your experience level in Data Science? </label>
-                <select disabled value = {experienceLevel} id='experienceLevel' onChange={event => setExperienceLevel(event.target.value)} required>
+                <select value = {experienceLevel} id='experienceLevel' onChange={event => setExperienceLevel(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='Beginner'>Beginner</option>
                   <option value='Advanced'>Advanced</option>
@@ -547,7 +547,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='hasTeam' className = 'requiredField'> Do you have a team yet? </label>
-                <select disabled id='hasTeam' value = {hasTeam} onChange={event => setHasTeam(event.target.value)} required>
+                <select id='hasTeam' value = {hasTeam} onChange={event => setHasTeam(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='No'>I do have a team</option>
                   <option value='Yes'>I do not have a team</option>
@@ -556,7 +556,7 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='eventSource' className = 'requiredField'> How did you hear about TAMU Datathon? </label>
-                <select disabled id='eventSource' value = {eventSource} onChange={event => setEventSource(event.target.value)} required>
+                <select id='eventSource' value = {eventSource} onChange={event => setEventSource(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='Friend'>From a friend</option>
                   <option value='Social Media'>Social media</option>
@@ -571,7 +571,7 @@ function Home(): JSX.Element {
               
               <div className='input-wrapper'>
                 <label htmlFor='shirtSize' className = 'requiredField'>What size shirt do you wear?</label>
-                <select disabled id='shirtSize' value = {shirtSize} onChange={event => setShirtSize(event.target.value)} required>
+                <select id='shirtSize' value = {shirtSize} onChange={event => setShirtSize(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='S'>Unisex S</option>
                   <option value='M'>Unisex M</option>
@@ -583,43 +583,43 @@ function Home(): JSX.Element {
 
               <div className='input-wrapper'>
                 <label htmlFor='address'>Address:</label>
-                <input disabled type = 'text' id='address' value={address} onChange={event => setAddress(event.target.value)} placeholder='Enter a location' />
+                <input type = 'text' id='address' value={address} onChange={event => setAddress(event.target.value)} placeholder='Enter a location' />
                 <div className='helperText'>You will not receive swag and prizes without an address.</div>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only, 1MB max):</label>
-                <input disabled type="file" required accept="application/pdf" onChange={handleFileChange}/>
+                <input type="file" required accept="application/pdf" onChange={handleFileChange}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='reflinks'>Point us to anything you'd like us to look at while considering your application:</label>
-                <input disabled type = 'text' id ='reflinks' value={referenceLinks} onChange={event => setReferenceLinks(event.target.value)} placeholder='ex. GitHub, Devpost, personal website, LinkedIn, etc.' />
+                <input type = 'text' id ='reflinks' value={referenceLinks} onChange={event => setReferenceLinks(event.target.value)} placeholder='ex. GitHub, Devpost, personal website, LinkedIn, etc.' />
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='programmingJoke' className = 'requiredField'> Tell us your best programming joke. </label>
-                <textarea disabled id='programmingJoke' required value={programmingJoke} onChange={event => setProgrammingJoke(event.target.value)}/>
+                <textarea id='programmingJoke' required value={programmingJoke} onChange={event => setProgrammingJoke(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='unlimitedResourcesBuild' className = 'requiredField'> What is the one thing you'd build if you had unlimited resources? </label>
-                <textarea disabled id='unlimitedResourcesBuild' required value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
+                <textarea id='unlimitedResourcesBuild' required value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='interestReason' className = 'requiredField'> What drives your interest in being a part of TAMU Datathon? </label>
-                <textarea disabled id='interestReason' required value={interestReason} onChange={event => setInterestReason(event.target.value)}/>
+                <textarea id='interestReason' required value={interestReason} onChange={event => setInterestReason(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='dietaryRestrictions'>Do you require any special accommodations at the event? Please list all dietary restrictions here.</label>
-                <textarea disabled id='dietaryRestrictions' value={dietaryRestrictions} onChange={event => setDietaryRestrictions(event.target.value)}/>
+                <textarea id='dietaryRestrictions' value={dietaryRestrictions} onChange={event => setDietaryRestrictions(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='extraInfo'>Anything else you would like us to know?</label>
-                <textarea disabled id='extraInfo' value={extraInfo} onChange={event => setExtraInfo(event.target.value)}/>
+                <textarea id='extraInfo' value={extraInfo} onChange={event => setExtraInfo(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
@@ -628,7 +628,7 @@ function Home(): JSX.Element {
                     I have read and agree to the <a className="mlh" href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">MLH Code of Conduct</a>.
                 </label>
                 <div>
-                    <input disabled type="checkbox" id="mlhQ1" required className="checkBox" checked={mlhQ1} onChange={event => setmlhQ1(event.target.checked)}/>
+                    <input type="checkbox" id="mlhQ1" required className="checkBox" checked={mlhQ1} onChange={event => setmlhQ1(event.target.checked)}/>
                 </div>
               </div>
 
@@ -637,7 +637,7 @@ function Home(): JSX.Element {
                     I authorize you to share my application / registration information with Major League Hacking for event administration, ranking, and MLH administration in-line with the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>. I further agree to the terms of both the <a className="mlh" href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md">MLH Contest Terms and Conditions</a> and the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
                 </label>
                 <div>
-                    <input disabled type="checkbox" id="mlhQ2" required className="checkBox" checked={mlhQ2} onChange={event => setmlhQ2(event.target.checked)}/>
+                    <input type="checkbox" id="mlhQ2" required className="checkBox" checked={mlhQ2} onChange={event => setmlhQ2(event.target.checked)}/>
                 </div>
               </div>
 
@@ -646,7 +646,7 @@ function Home(): JSX.Element {
                     I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements.
                 </label>
                 <div>
-                    <input disabled type="checkbox" id="mlhQ3" className="checkBox" checked={mlhQ3} onChange={event => setmlhQ3(event.target.checked)}/>
+                    <input type="checkbox" id="mlhQ3" className="checkBox" checked={mlhQ3} onChange={event => setmlhQ3(event.target.checked)}/>
                 </div>
               </div>
 
@@ -655,13 +655,13 @@ function Home(): JSX.Element {
                     I agree to TAMU Datathon's <a className="mlh" href="https://tamudatathon.com/legal/talent_liability_terms">Talent Release and Liability terms</a>.
                 </label>
                 <div>
-                    <input disabled type="checkbox" id="liabilityTerms" className="checkBox" checked={liabilityTerms} onChange={event => setLiabilityTerms(event.target.checked)}/>
+                    <input type="checkbox" id="liabilityTerms" className="checkBox" checked={liabilityTerms} onChange={event => setLiabilityTerms(event.target.checked)}/>
                 </div>
               </div>
 
-              {/* <div className='input-wrapper'>
+              <div className='input-wrapper'>
                 <button className='appButton' type='submit'>Submit application</button>
-              </div> */}
+              </div>
             </div>
           </form>
         </div>
