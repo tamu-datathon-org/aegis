@@ -263,6 +263,25 @@ function Home(): JSX.Element {
       <div>Settings</div>
     );
   };
+  const Dietary = () => {
+    return <div>
+      Dietary
+      <table>
+        <tbody>
+          <tr>
+            <th>Name</th>
+            <th>Restrictions</th>
+          </tr>
+          {applicants.map((applicant) => (
+            <tr key={applicant.email}>
+              <td>{applicant.firstName} {applicant.lastName}</td>
+              <td>{applicant.dietaryRestrictions}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      </div>
+  }
 
   const handleClick = (buttonLabel: SetStateAction<string>) => {
     setSelected(buttonLabel)
@@ -288,11 +307,13 @@ function Home(): JSX.Element {
             <button onClick={() => handleClick("stats")}>Stats</button>
             <button onClick={() => handleClick("applicants")}>Applicants</button>
             <button onClick={() => handleClick("settings")}>Settings</button>
+            <button onClick={() => handleClick("dietary")}>Dietary Restrictions</button>
             </div>
 
             {selected === "stats" && <Stats />}
             {selected === "applicants" && <Applicants />}
             {selected === "settings" && <Settings />}
+            {selected === "dietary" && <Dietary />}
         </div>
       </div>
     </>
