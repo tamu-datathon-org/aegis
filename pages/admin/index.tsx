@@ -264,6 +264,9 @@ function Home(): JSX.Element {
     );
   };
   const Dietary = () => {
+    const restrictedApplicants = applicants.filter((applicant) => {
+      return applicant.dietaryRestrictions.trim() !== "";
+    });
     return <div>
       Dietary
       <table>
@@ -272,7 +275,7 @@ function Home(): JSX.Element {
             <th>Name</th>
             <th>Restrictions</th>
           </tr>
-          {applicants.map((applicant) => (
+          {restrictedApplicants.map((applicant) => (
             <tr key={applicant.email}>
               <td>{applicant.firstName} {applicant.lastName}</td>
               <td>{applicant.dietaryRestrictions}</td>
