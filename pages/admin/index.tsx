@@ -71,6 +71,12 @@ function Home(): JSX.Element {
         const lowerRestrictions = applicant.dietaryRestrictions.toLowerCase();
         return (lowerRestrictions.indexOf("vegetarian") > -1 || lowerRestrictions.indexOf("vegan") > -1);
     }).length;
+    //halal
+    const numHalal = applicants.filter((applicant) => {
+        const lowerRestrictions = applicant.dietaryRestrictions.toLowerCase();
+        return lowerRestrictions.indexOf("halal") > -1;
+    }).length;
+
     //grad students
     const totalGradStudents = applicants.filter((applicant) => {
       return applicant.classification === "Graduate";
@@ -90,6 +96,7 @@ function Home(): JSX.Element {
         <h6>Total Applicants: {totalApplicants}</h6>
         <h6>Total Grad Students: {totalGradStudents}</h6>
         <h6>Vegetarian/Vegan: {numVegetarianVegan}</h6>
+        <h6>Halal: {numHalal}</h6>
         <h6>Shirt Size Counts:</h6>
         {sizeCounts.map((size, index) => (
           <p key={index}>{size.size}: {size.count}
