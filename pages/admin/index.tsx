@@ -66,24 +66,33 @@ function Home(): JSX.Element {
         }).length
       }
     });
-    //vegetarians
-    const numVegetarianVegan = applicants.filter((applicant) => {
-        const lowerRestrictions = applicant.dietaryRestrictions.toLowerCase();
-        return (lowerRestrictions.indexOf("vegetarian") > -1 || lowerRestrictions.indexOf("vegan") > -1);
-    }).length;
-    //halal
-    const numHalal = applicants.filter((applicant) => {
-        const lowerRestrictions = applicant.dietaryRestrictions.toLowerCase();
-        return lowerRestrictions.indexOf("halal") > -1;
-    }).length;
-
     //grad students
     const totalGradStudents = applicants.filter((applicant) => {
       return applicant.classification === "Graduate";
     }).length;
-    //applicants by school
+    //applicants by school, veg/vegan and halal
     const schoolCounts: Record<string, number> = {};
+    const dietaryCounts: Record<string, number> = {};
+    dietaryCounts['mentions vegetarian/vegan only'] = 0;
+    dietaryCounts['mentions halal only'] = 0;
+    dietaryCounts['mentions both halal, vegetarian/vegan'] = 0;
     applicants.forEach((applicant) => {
+      //check dietary restrictions
+      const lowerRestrictions = applicant.dietaryRestrictions.toLowerCase();
+      const containsHalal = lowerRestrictions.indexOf('halal') >= 0;
+      const containsVegetarian = lowerRestrictions.indexOf('vegetarian') >= 0 ||
+        lowerRestrictions.indexOf('vegeterian') >= 0 ||
+        lowerRestrictions.indexOf('vegan') >= 0;
+      if(containsHalal && containsVegetarian) {
+        dietaryCounts['mentions both halal, vegetarian/vegan'] += 1;
+      }
+      else if(containsHalal) {
+        dietaryCounts['mentions halal only'] += 1;
+      }
+      else if(containsVegetarian) {
+        dietaryCounts['mentions vegetarian/vegan only'] += 1;
+      }
+      //check school
       if(schoolCounts[applicant.school] !== undefined) {
         schoolCounts[applicant.school] += 1;
       }
@@ -95,8 +104,10 @@ function Home(): JSX.Element {
       <div>
         <h6>Total Applicants: {totalApplicants}</h6>
         <h6>Total Grad Students: {totalGradStudents}</h6>
-        <h6>Vegetarian/Vegan: {numVegetarianVegan}</h6>
-        <h6>Halal: {numHalal}</h6>
+        <h6>Dietary Restrictions:</h6>
+        {Object.keys(dietaryCounts).map(restriction => (
+          <p key={restriction}>{restriction}: {dietaryCounts[restriction]}</p>
+        ))}
         <h6>Shirt Size Counts:</h6>
         {sizeCounts.map((size, index) => (
           <p key={index}>{size.size}: {size.count}
