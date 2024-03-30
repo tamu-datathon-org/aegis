@@ -658,6 +658,10 @@ function Home(): JSX.Element {
                     <input type="checkbox" id="liabilityTerms" className="checkBox" checked={liabilityTerms} onChange={event => setLiabilityTerms(event.target.checked)}/>
                 </div>
               </div>
+
+              <div className='input-wrapper'>
+                <button className='appButton' type='submit'>Submit application</button>
+              </div>
             </div>
           </form>
         </div>
