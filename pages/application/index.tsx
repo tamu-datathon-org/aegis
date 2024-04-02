@@ -45,6 +45,7 @@ function Home(): JSX.Element {
   const [mlhQ2, setmlhQ2] = useState(false);
   const [mlhQ3, setmlhQ3] = useState(false);
   const [liabilityTerms, setLiabilityTerms] = useState(false);
+  const [readyTimer, setReadyTimer] = useState(false);
 
   const [resume, setResume] = useState<File | null>(null);
 
@@ -55,6 +56,17 @@ function Home(): JSX.Element {
       (window as any).location = '/auth/login?r=/apply';
     }
   }, [status])
+
+  useEffect(() => {
+    if(readyTimer) {
+      const timerId = setTimeout(() => {
+        (window as any).location = '/apply';
+      }, 4000);
+
+      return () =>clearTimeout(timerId);
+    }
+
+  }, [readyTimer]);
     
   useEffect(() => {
       const fetchApplication = async () => {
@@ -300,6 +312,7 @@ function Home(): JSX.Element {
 
       if(response.status == 201 && res.status == 200) {
         setToast({ text: 'Application received!', type: 'success', delay: 3000 });
+        setReadyTimer(true);
       } else {
         throw new Error();
       }
