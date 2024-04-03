@@ -7,9 +7,9 @@ type AuthenticatedRouteHandler = (req: VercelRequest, res: VercelResponse, user:
 export const authenticatedRoute = (handler: AuthenticatedRouteHandler) => async (req: VercelRequest, res: VercelResponse): Promise<void> => {
   const response: User | GatekeeperRequestError = await authenticatedFetch(`https://tamudatathon.com/auth/user`, req);
 
-  if ((response as GatekeeperRequestError).statusCode === 401)
-    res.writeHead(302, 
-      { Location: `/auth/login?r=${req.url}`}).end();
+  // if ((response as GatekeeperRequestError).statusCode === 401)
+  //   res.writeHead(302, 
+  //     { Location: `/auth/login?r=${req.url}`}).end();
 
   return handler(req, res, response as User);
 };

@@ -51,11 +51,11 @@ function Home(): JSX.Element {
 
   const [, setToast] = useToasts();
 
-  useEffect(() => {
-    if (status == UserCurrentStatus.LoggedOut) {
-      (window as any).location = '/auth/login?r=/apply';
-    }
-  }, [status])
+  // useEffect(() => {
+  //   if (status == UserCurrentStatus.LoggedOut) {
+  //     (window as any).location = '/auth/login?r=/apply';
+  //   }
+  // }, [status])
 
   useEffect(() => {
     if(readyTimer) {
@@ -478,11 +478,11 @@ function Home(): JSX.Element {
                 <label htmlFor='anticipatedGradYear' className = 'requiredField'> What is your anticipated graduation year?</label>
                 <select value = {anticipatedGradYear} id='anticipatedGradYear' onChange={event => setAnticipatedgradYear(event.target.value)} required>
                   <option value=''>---------</option>
-                  <option value='2023'>2023</option>
                   <option value='2024'>2024</option>
                   <option value='2025'>2025</option>
                   <option value='2026'>2026</option>
                   <option value='2027'>2027</option>
+                  <option value='2028'>2028</option>
                   <option value='Other'>Other</option>
                 </select>
               </div>
@@ -635,41 +635,13 @@ function Home(): JSX.Element {
                 <textarea id='extraInfo' value={extraInfo} onChange={event => setExtraInfo(event.target.value)}/>
               </div>
 
-              <div className='input-wrapper'>
-                <div style={{fontStyle: 'italic'}}>We are currently in the process of partnering with MLH. The following 3 checkboxes are for this partnership. If we do not end up partnering with MLH, your information will not be shared.</div>
-                <label htmlFor='mlhQ1' className="requiredField">
-                    I have read and agree to the <a className="mlh" href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">MLH Code of Conduct</a>.
-                </label>
-                <div>
-                    <input type="checkbox" id="mlhQ1" required className="checkBox" checked={mlhQ1} onChange={event => setmlhQ1(event.target.checked)}/>
-                </div>
-              </div>
-
-              <div className='input-wrapper'>
-                <label htmlFor='mlhQ2' className="requiredField">
-                    I authorize you to share my application / registration information with Major League Hacking for event administration, ranking, and MLH administration in-line with the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>. I further agree to the terms of both the <a className="mlh" href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md">MLH Contest Terms and Conditions</a> and the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
-                </label>
-                <div>
-                    <input type="checkbox" id="mlhQ2" required className="checkBox" checked={mlhQ2} onChange={event => setmlhQ2(event.target.checked)}/>
-                </div>
-              </div>
-
-              <div className='input-wrapper'>
-                <label htmlFor='mlhQ3'>
-                    I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements.
-                </label>
-                <div>
-                    <input type="checkbox" id="mlhQ3" className="checkBox" checked={mlhQ3} onChange={event => setmlhQ3(event.target.checked)}/>
-                </div>
-              </div>
-
-              <div className='input-wrapper'>
-                <label htmlFor='liabilityTerms' className="requiredField">
-                    I agree to TAMU Datathon's <a className="mlh" href="https://tamudatathon.com/legal/talent_liability_terms">Talent Release and Liability terms</a>.
-                </label>
+              <div className='input-wrapper' style={{display: "flex", alignItems: "center", columnGap: "12px"}}>
                 <div>
                     <input type="checkbox" id="liabilityTerms" className="checkBox" checked={liabilityTerms} onChange={event => setLiabilityTerms(event.target.checked)}/>
                 </div>
+                <label htmlFor='liabilityTerms' className="requiredField">
+                    I agree to TAMU Datathon's <a className="mlh" href="https://tamudatathon.com/legal/talent_liability_terms">Talent Release and Liability terms</a>.
+                </label>
               </div>
 
               <div className='input-wrapper'>
