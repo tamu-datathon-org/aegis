@@ -37,13 +37,8 @@ function Home(): JSX.Element {
   const [address, setAddress] = useState('');
   const [referenceLinks, setReferenceLinks] = useState('');
   const [programmingJoke, setProgrammingJoke] = useState('');
-  const [unlimitedResourcesBuild, setUnlimitedResourcesBuild] = useState('');
-  const [interestReason, setInterestReason] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
   const [extraInfo, setExtraInfo] = useState('');
-  const [mlhQ1, setmlhQ1] = useState(false);
-  const [mlhQ2, setmlhQ2] = useState(false);
-  const [mlhQ3, setmlhQ3] = useState(false);
   const [liabilityTerms, setLiabilityTerms] = useState(false);
   const [readyTimer, setReadyTimer] = useState(false);
 
@@ -73,7 +68,6 @@ function Home(): JSX.Element {
         try {
         const response = await fetch('/apply/api/getApplication');
         const data = await response.json();
-    
         // TODO: FIX THIS GARBAGE CODE
         if(data.firstName != null) {
           setFirstName(data.firstName);
@@ -157,32 +151,12 @@ function Home(): JSX.Element {
           setProgrammingJoke(data.programmingJoke);
         }
 
-        if(data.unlimitedResourcesBuild != null) {
-          setUnlimitedResourcesBuild(data.unlimitedResourcesBuild);
-        }
-
-        if(data.interestReason != null) {
-            setInterestReason(data.interestReason);
-        }
-
         if(data.dietaryRestrictions != null) {
           setDietaryRestrictions(data.dietaryRestrictions);
         }
 
         if(data.extraInfo != null) {
           setExtraInfo(data.extraInfo);
-        }
-
-        if(data.mlhQ1 != null) {
-            setmlhQ1(data.mlhQ1);
-        }
-
-        if(data.mlhQ2 != null) {
-            setmlhQ2(data.mlhQ2);
-        }
-
-        if(data.mlhQ3 != null) {
-            setmlhQ3(data.mlhQ3);
         }
 
         if(data.liabilityTerms != null) {
@@ -221,8 +195,6 @@ function Home(): JSX.Element {
         { variable: eventSource, label: 'Event Source' },
         { variable: shirtSize, label: 'Shirt Size' },
         { variable: programmingJoke, label: 'Programming Joke' },
-        { variable: unlimitedResourcesBuild, label: 'Unlimited Resources Build' },
-        { variable: interestReason, label: 'Interest Reason' },
     ];
     
     const missingFields = [];
@@ -238,12 +210,6 @@ function Home(): JSX.Element {
 
     if(!resume)
         missingFields.push("Resume file");
-
-    if(!mlhQ1)
-        missingFields.push("MLH question 1");
-
-    if(!mlhQ2)
-        missingFields.push("MLH question 2");
 
     if(!liabilityTerms)
         missingFields.push("TAMU Datathon Talent Release and Liability Terms");
@@ -279,13 +245,8 @@ function Home(): JSX.Element {
         address,
         referenceLinks,
         programmingJoke,
-        unlimitedResourcesBuild,
-        interestReason,
         dietaryRestrictions,
         extraInfo,
-        mlhQ1,
-        mlhQ2,
-        mlhQ3,
         liabilityTerms
       });
 
@@ -416,8 +377,17 @@ function Home(): JSX.Element {
                 <label htmlFor='major' className = 'requiredField'> What's your major? </label>
                 <select id='major' value={major} onChange={(event) => setMajor(event.target.value)} required>
                     <option value=''>---------</option>
-                    <option value='Computer science, computer engineering, or software engineering'>
-                        Computer science, computer engineering, or software engineering
+                    <option value='Computer Science'>
+                        Computer Science
+                    </option>
+                    <option value='Computer Engineering'>
+                      Computer Engineering
+                    </option>
+                    <option value='Computing'>
+                      Computing
+                    </option>
+                    <option value='Data Engineering'>
+                      Data Engineering
                     </option>
                     <option value='Another engineering discipline'>
                         Another engineering discipline (such as civil, electrical, mechanical, etc.)
@@ -478,11 +448,11 @@ function Home(): JSX.Element {
                 <label htmlFor='anticipatedGradYear' className = 'requiredField'> What is your anticipated graduation year?</label>
                 <select value = {anticipatedGradYear} id='anticipatedGradYear' onChange={event => setAnticipatedgradYear(event.target.value)} required>
                   <option value=''>---------</option>
-                  <option value='2023'>2023</option>
                   <option value='2024'>2024</option>
                   <option value='2025'>2025</option>
                   <option value='2026'>2026</option>
                   <option value='2027'>2027</option>
+                  <option value='2028'>2028</option>
                   <option value='Other'>Other</option>
                 </select>
               </div>
@@ -554,6 +524,7 @@ function Home(): JSX.Element {
                 <select value = {experienceLevel} id='experienceLevel' onChange={event => setExperienceLevel(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='Beginner'>Beginner</option>
+                  <option value='Intermediate'>Intermediate</option>
                   <option value='Advanced'>Advanced</option>
                 </select>
               </div>
@@ -616,16 +587,6 @@ function Home(): JSX.Element {
               </div>
 
               <div className='input-wrapper'>
-                <label htmlFor='unlimitedResourcesBuild' className = 'requiredField'> What is the one thing you'd build if you had unlimited resources? </label>
-                <textarea id='unlimitedResourcesBuild' required value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
-              </div>
-
-              <div className='input-wrapper'>
-                <label htmlFor='interestReason' className = 'requiredField'> What drives your interest in being a part of TAMU Datathon? </label>
-                <textarea id='interestReason' required value={interestReason} onChange={event => setInterestReason(event.target.value)}/>
-              </div>
-
-              <div className='input-wrapper'>
                 <label htmlFor='dietaryRestrictions'>Do you require any special accommodations at the event? Please list all dietary restrictions here.</label>
                 <textarea id='dietaryRestrictions' value={dietaryRestrictions} onChange={event => setDietaryRestrictions(event.target.value)}/>
               </div>
@@ -635,41 +596,13 @@ function Home(): JSX.Element {
                 <textarea id='extraInfo' value={extraInfo} onChange={event => setExtraInfo(event.target.value)}/>
               </div>
 
-              <div className='input-wrapper'>
-                <div style={{fontStyle: 'italic'}}>We are currently in the process of partnering with MLH. The following 3 checkboxes are for this partnership. If we do not end up partnering with MLH, your information will not be shared.</div>
-                <label htmlFor='mlhQ1' className="requiredField">
-                    I have read and agree to the <a className="mlh" href="https://static.mlh.io/docs/mlh-code-of-conduct.pdf">MLH Code of Conduct</a>.
-                </label>
-                <div>
-                    <input type="checkbox" id="mlhQ1" required className="checkBox" checked={mlhQ1} onChange={event => setmlhQ1(event.target.checked)}/>
-                </div>
-              </div>
-
-              <div className='input-wrapper'>
-                <label htmlFor='mlhQ2' className="requiredField">
-                    I authorize you to share my application / registration information with Major League Hacking for event administration, ranking, and MLH administration in-line with the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>. I further agree to the terms of both the <a className="mlh" href="https://github.com/MLH/mlh-policies/blob/main/contest-terms.md">MLH Contest Terms and Conditions</a> and the <a className="mlh" href="https://mlh.io/privacy">MLH Privacy Policy</a>.
-                </label>
-                <div>
-                    <input type="checkbox" id="mlhQ2" required className="checkBox" checked={mlhQ2} onChange={event => setmlhQ2(event.target.checked)}/>
-                </div>
-              </div>
-
-              <div className='input-wrapper'>
-                <label htmlFor='mlhQ3'>
-                    I authorize MLH to send me occasional emails about relevant events, career opportunities, and community announcements.
-                </label>
-                <div>
-                    <input type="checkbox" id="mlhQ3" className="checkBox" checked={mlhQ3} onChange={event => setmlhQ3(event.target.checked)}/>
-                </div>
-              </div>
-
-              <div className='input-wrapper'>
-                <label htmlFor='liabilityTerms' className="requiredField">
-                    I agree to TAMU Datathon's <a className="mlh" href="https://tamudatathon.com/legal/talent_liability_terms">Talent Release and Liability terms</a>.
-                </label>
+              <div className='input-wrapper' style={{display: "flex", alignItems: "center", columnGap: "12px"}}>
                 <div>
                     <input type="checkbox" id="liabilityTerms" className="checkBox" checked={liabilityTerms} onChange={event => setLiabilityTerms(event.target.checked)}/>
                 </div>
+                <label htmlFor='liabilityTerms' className="requiredField">
+                    I agree to TAMU Datathon's <a className="mlh" href="https://tamudatathon.com/legal/talent_liability_terms">Talent Release and Liability terms</a>.
+                </label>
               </div>
 
               <div className='input-wrapper'>
