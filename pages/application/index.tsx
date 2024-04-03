@@ -37,13 +37,8 @@ function Home(): JSX.Element {
   const [address, setAddress] = useState('');
   const [referenceLinks, setReferenceLinks] = useState('');
   const [programmingJoke, setProgrammingJoke] = useState('');
-  const [unlimitedResourcesBuild, setUnlimitedResourcesBuild] = useState('');
-  const [interestReason, setInterestReason] = useState('');
   const [dietaryRestrictions, setDietaryRestrictions] = useState('');
   const [extraInfo, setExtraInfo] = useState('');
-  const [mlhQ1, setmlhQ1] = useState(false);
-  const [mlhQ2, setmlhQ2] = useState(false);
-  const [mlhQ3, setmlhQ3] = useState(false);
   const [liabilityTerms, setLiabilityTerms] = useState(false);
   const [readyTimer, setReadyTimer] = useState(false);
 
@@ -51,11 +46,11 @@ function Home(): JSX.Element {
 
   const [, setToast] = useToasts();
 
-  // useEffect(() => {
-  //   if (status == UserCurrentStatus.LoggedOut) {
-  //     (window as any).location = '/auth/login?r=/apply';
-  //   }
-  // }, [status])
+  useEffect(() => {
+    if (status == UserCurrentStatus.LoggedOut) {
+      (window as any).location = '/auth/login?r=/apply';
+    }
+  }, [status])
 
   useEffect(() => {
     if(readyTimer) {
@@ -73,7 +68,6 @@ function Home(): JSX.Element {
         try {
         const response = await fetch('/apply/api/getApplication');
         const data = await response.json();
-    
         // TODO: FIX THIS GARBAGE CODE
         if(data.firstName != null) {
           setFirstName(data.firstName);
@@ -157,32 +151,12 @@ function Home(): JSX.Element {
           setProgrammingJoke(data.programmingJoke);
         }
 
-        if(data.unlimitedResourcesBuild != null) {
-          setUnlimitedResourcesBuild(data.unlimitedResourcesBuild);
-        }
-
-        if(data.interestReason != null) {
-            setInterestReason(data.interestReason);
-        }
-
         if(data.dietaryRestrictions != null) {
           setDietaryRestrictions(data.dietaryRestrictions);
         }
 
         if(data.extraInfo != null) {
           setExtraInfo(data.extraInfo);
-        }
-
-        if(data.mlhQ1 != null) {
-            setmlhQ1(data.mlhQ1);
-        }
-
-        if(data.mlhQ2 != null) {
-            setmlhQ2(data.mlhQ2);
-        }
-
-        if(data.mlhQ3 != null) {
-            setmlhQ3(data.mlhQ3);
         }
 
         if(data.liabilityTerms != null) {
@@ -221,8 +195,6 @@ function Home(): JSX.Element {
         { variable: eventSource, label: 'Event Source' },
         { variable: shirtSize, label: 'Shirt Size' },
         { variable: programmingJoke, label: 'Programming Joke' },
-        { variable: unlimitedResourcesBuild, label: 'Unlimited Resources Build' },
-        { variable: interestReason, label: 'Interest Reason' },
     ];
     
     const missingFields = [];
@@ -238,12 +210,6 @@ function Home(): JSX.Element {
 
     if(!resume)
         missingFields.push("Resume file");
-
-    if(!mlhQ1)
-        missingFields.push("MLH question 1");
-
-    if(!mlhQ2)
-        missingFields.push("MLH question 2");
 
     if(!liabilityTerms)
         missingFields.push("TAMU Datathon Talent Release and Liability Terms");
@@ -279,13 +245,8 @@ function Home(): JSX.Element {
         address,
         referenceLinks,
         programmingJoke,
-        unlimitedResourcesBuild,
-        interestReason,
         dietaryRestrictions,
         extraInfo,
-        mlhQ1,
-        mlhQ2,
-        mlhQ3,
         liabilityTerms
       });
 
@@ -416,8 +377,17 @@ function Home(): JSX.Element {
                 <label htmlFor='major' className = 'requiredField'> What's your major? </label>
                 <select id='major' value={major} onChange={(event) => setMajor(event.target.value)} required>
                     <option value=''>---------</option>
-                    <option value='Computer science, computer engineering, or software engineering'>
-                        Computer science, computer engineering, or software engineering
+                    <option value='Computer Science'>
+                        Computer Science
+                    </option>
+                    <option value='Computer Engineering'>
+                      Computer Engineering
+                    </option>
+                    <option value='Computing'>
+                      Computing
+                    </option>
+                    <option value='Data Engineering'>
+                      Data Engineering
                     </option>
                     <option value='Another engineering discipline'>
                         Another engineering discipline (such as civil, electrical, mechanical, etc.)
@@ -554,6 +524,7 @@ function Home(): JSX.Element {
                 <select value = {experienceLevel} id='experienceLevel' onChange={event => setExperienceLevel(event.target.value)} required>
                   <option value=''>---------</option>
                   <option value='Beginner'>Beginner</option>
+                  <option value='Intermediate'>Intermediate</option>
                   <option value='Advanced'>Advanced</option>
                 </select>
               </div>
@@ -613,16 +584,6 @@ function Home(): JSX.Element {
               <div className='input-wrapper'>
                 <label htmlFor='programmingJoke' className = 'requiredField'> Tell us your best programming joke. </label>
                 <textarea id='programmingJoke' required value={programmingJoke} onChange={event => setProgrammingJoke(event.target.value)}/>
-              </div>
-
-              <div className='input-wrapper'>
-                <label htmlFor='unlimitedResourcesBuild' className = 'requiredField'> What is the one thing you'd build if you had unlimited resources? </label>
-                <textarea id='unlimitedResourcesBuild' required value={unlimitedResourcesBuild} onChange={event => setUnlimitedResourcesBuild(event.target.value)}/>
-              </div>
-
-              <div className='input-wrapper'>
-                <label htmlFor='interestReason' className = 'requiredField'> What drives your interest in being a part of TAMU Datathon? </label>
-                <textarea id='interestReason' required value={interestReason} onChange={event => setInterestReason(event.target.value)}/>
               </div>
 
               <div className='input-wrapper'>
