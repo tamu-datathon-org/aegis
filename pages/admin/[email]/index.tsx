@@ -1,17 +1,17 @@
 // pages/apply/admin/[email]/index.tsx
 import { useRouter } from 'next/router';
-import { Navbar } from '../../../components/Navbar';
-import { useActiveUser, UserCurrentStatus, UserProvider } from '../../../components/UserProvider';
+import { Navbar } from '@/components/Navbar';
+import { useActiveUser, UserCurrentStatus, UserProvider } from '@/components/UserProvider';
 import { useEffect, useState } from 'react';
 
 const ApplicantPage = () => {
     const router = useRouter();
     const { email } = router.query;
 
-    const [showResults, setShowResults] = useState(false);
+    // const [showResults, setShowResults] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [countrySearchQuery, setCountrySearchQuery] = useState('');
-    const [countryShowResults, setCountryShowResults] = useState(false);
+    // const [countryShowResults, setCountryShowResults] = useState(false);
   
     const { user, status } = useActiveUser();
     const [firstName, setFirstName] = useState('');
@@ -43,7 +43,7 @@ const ApplicantPage = () => {
     const [mlhQ3, setmlhQ3] = useState(false);
     const [liabilityTerms, setLiabilityTerms] = useState(false);
   
-    const [resume, setResume] = useState<File | null>(null);
+    // const [resume, setResume] = useState<File | null>(null);
     const [resumeLink, setResumeLink] = useState('');
   
     useEffect(() => {
@@ -176,9 +176,9 @@ const ApplicantPage = () => {
               setLiabilityTerms(data.liabilityTerms);
           }
   
-          if(data.resume != null) {
-              setResume(data.resume);
-          }
+          // if(data.resume != null) {
+          //     setResume(data.resume);
+          // }
 
           if(data.resumeLink != null) {
               setResumeLink(data.resumeLink);
@@ -448,7 +448,7 @@ const ApplicantPage = () => {
           </div>
 
           <div className='input-wrapper'>
-            <label htmlFor='address' className = 'requiredField'>View Applicant Resume:</label>
+            <label htmlFor='address'>View Applicant Resume:</label>
             <br/>
             <a className='mlh' href={resumeLink} target="_blank" rel="noreferrer">View Resume</a>
           </div>
