@@ -259,8 +259,8 @@ function Home(): JSX.Element {
             // const filename = encodeURIComponent(file?.name || "");
             // const fileType = encodeURIComponent(file?.type || "");
 
-            const res = await fetch(`/apply/api/upload-url?fileType=${fileType}&firstName=${firstName}&lastName=${lastName}`)
-            const {fields} = await res.json()
+            // const res = await fetch(`/apply/api/upload-url?fileType=${fileType}&firstName=${firstName}&lastName=${lastName}`)
+            // const {fields} = await res.json()
 
             Object.entries({...fields, file}).forEach(([key, value]) => {
                 formData.append(key, value as string);
