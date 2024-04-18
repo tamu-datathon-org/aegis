@@ -1,5 +1,5 @@
 // import s3 from '../../utils/aws-config';
-import {VercelRequest, VercelResponse} from '@vercel/node';
+// import {VercelRequest, VercelResponse} from '@vercel/node';
 // import nextConnect from 'next-connect'
 // import {authenticatedRoute} from '../../libs/middleware'
 
