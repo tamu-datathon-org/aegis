@@ -41,7 +41,7 @@ function Home(): JSX.Element {
     const [liabilityTerms, setLiabilityTerms] = useState(false);
     const [readyTimer, setReadyTimer] = useState(false);
 
-    // const [resume, setResume] = useState<File | null>(null);
+    const [resume, setResume] = useState<File | null>(null);
 
     const [, setToast] = useToasts();
 
@@ -162,9 +162,9 @@ function Home(): JSX.Element {
                     setLiabilityTerms(data.liabilityTerms);
                 }
 
-                // if (data.resume != null) {
-                //     setResume(data.resume);
-                // }
+                if (data.resume != null) {
+                    setResume(data.resume);
+                }
 
             } catch (error) {
                 console.error(error);
@@ -254,21 +254,21 @@ function Home(): JSX.Element {
 
             const formData = new FormData();
 
-            // const file = resume;
+            const file = resume;
 
             // const filename = encodeURIComponent(file?.name || "");
-            // const fileType = encodeURIComponent(file?.type || "");
+            const fileType = encodeURIComponent(file?.type || "");
 
-            // const res = await fetch(`/apply/api/upload-url?fileType=${fileType}&firstName=${firstName}&lastName=${lastName}`)
-            const {fields} = await res.json()
+            const res = await fetch(`/apply/api/upload-url?fileType=${fileType}&firstName=${firstName}&lastName=${lastName}`)
+            const {url, fields} = await res.json()
 
             Object.entries({...fields, file}).forEach(([key, value]) => {
                 formData.append(key, value as string);
             });
 
-            // const upload = await fetch(url, {
-            //     method: 'POST', body: formData,
-            // })
+            const upload = await fetch(url, {
+                method: 'POST', body: formData,
+            })
 
             if (response.status == 201 && res.status == 200) {
                 setToast({text: 'Application received!', type: 'success', delay: 3000});
@@ -282,9 +282,9 @@ function Home(): JSX.Element {
         }
     };
 
-    // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     setResume(e.target.files?.[0]!);
-    // };
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setResume(e.target.files?.[0]!);
+    };
 
 
     const filteredSchools = allSchools.filter(currSchool => currSchool.schoolName.toLowerCase().includes(searchQuery?.toLowerCase()));
