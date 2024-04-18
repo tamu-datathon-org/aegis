@@ -12,18 +12,18 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
         const db = client.db();
         const data = req.body;
         
-        const result = await db.collection('applications').updateOne(
-            { email: tdUser.email },
-            { $set: data },
-            { upsert: true}
-        );
+        // const result = await db.collection('applications').updateOne(
+        //     { email: tdUser.email },
+        //     { $set: data },
+        //     { upsert: true}
+        // );
         
-        res.status(201).json({
-        message: 'Document created successfully',
-        result: result,
-        });
+        // res.status(201).json({
+        // message: 'Document created successfully',
+        // result: result,
+        // });
 
-        // res.status(201).json({ message: 'Applications are closed!' });
+        res.status(201).json({ message: 'Applications are closed!' });
     } catch (error) {
         console.log(error);
         res.status(500).json({ message: 'Error creating document', error });

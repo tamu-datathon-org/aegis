@@ -46,15 +46,15 @@ function Home(): JSX.Element {
         <div className="dashboardText">APPLICATION STATUS:</div>
         <div className="dashStatus">{appStatus.toUpperCase()}</div>
 
-        {/*<div className="dashboardText">*/}
-        {/*    <br/>*/}
-        {/*    Applications are currently closed.*/}
-        {/*    <br/>*/}
-        {/*    We are currently reviewing applications.*/}
-        {/*    <br/>*/}
-        {/*    Keep an eye out for an email!*/}
-        {/*</div>*/}
-         <button className="editButton"><Link className="dashboardText buttonText" href="/application">Edit your application</Link></button>
+        <div className="dashboardText">
+            <br/>
+            Applications are currently closed.
+            <br/>
+            We are currently reviewing applications.
+            <br/>
+            Keep an eye out for an email!
+        </div>
+        {/* <button className="editButton"><Link className="dashboardText buttonText" href="/application">Edit your application</Link></button> */}
       </form>
     </div>
     </>
