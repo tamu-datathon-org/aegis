@@ -252,7 +252,7 @@ function Home(): JSX.Element {
                 liabilityTerms
             });
 
-            // const formData = new FormData();
+            const formData = new FormData();
 
             // const file = resume;
 
@@ -262,15 +262,15 @@ function Home(): JSX.Element {
             // const res = await fetch(`/apply/api/upload-url?fileType=${fileType}&firstName=${firstName}&lastName=${lastName}`)
             // const {fields} = await res.json()
 
-            // Object.entries({...fields, file}).forEach(([key, value]) => {
-            //     formData.append(key, value as string);
-            // });
+            Object.entries({...fields, file}).forEach(([key, value]) => {
+                formData.append(key, value as string);
+            });
 
             // const upload = await fetch(url, {
             //     method: 'POST', body: formData,
             // })
 
-            if (response.status == 201 /* && res.status == 200*/) {
+            if (response.status == 201 && res.status == 200) {
                 setToast({text: 'Application received!', type: 'success', delay: 3000});
                 setReadyTimer(true);
             } else {
