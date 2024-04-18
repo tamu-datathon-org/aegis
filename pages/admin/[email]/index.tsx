@@ -448,7 +448,7 @@ const ApplicantPage = () => {
           </div>
 
           <div className='input-wrapper'>
-            <label htmlFor='address'>View Applicant Resume:</label>
+            <label htmlFor='address' className = 'requiredField'>View Applicant Resume:</label>
             <br/>
             <a className='mlh' href={resumeLink} target="_blank" rel="noreferrer">View Resume</a>
           </div>
