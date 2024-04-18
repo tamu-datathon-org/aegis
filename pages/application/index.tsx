@@ -571,14 +571,14 @@ function Home(): JSX.Element {
                 <div className='helperText'>You will not receive swag and prizes without an address.</div>
               </div>
 
-              {/*<div className='input-wrapper'>*/}
-              {/*  <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only, 1MB max):</label>*/}
-              {/*  <input type="file" required accept="application/pdf" onChange={handleFileChange}/>*/}
-              {/*</div>*/}
+              <div className='input-wrapper'>
+                <label htmlFor='address' className = 'requiredField'>Upload your resume (PDF only, 1MB max):</label>
+                <input type="file" required accept="application/pdf" onChange={handleFileChange}/>
+              </div>
 
               <div className='input-wrapper'>
                 <label htmlFor='reflinks'>Point us to anything you'd like us to look at while considering your application:</label>
-                <input type = 'text' id ='reflinks' value={referenceLinks} onChange={event => setReferenceLinks(event.target.value)} placeholder='ex. GitHub, Devpost, personal website, LinkedIn, resume, etc.' />
+                <input type = 'text' id ='reflinks' value={referenceLinks} onChange={event => setReferenceLinks(event.target.value)} placeholder='ex. GitHub, Devpost, personal website, LinkedIn, etc.' />
               </div>
 
               <div className='input-wrapper'>
