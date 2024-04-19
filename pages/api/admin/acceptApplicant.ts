@@ -56,7 +56,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                                     Here are some important details:
                                 </p>
                                 <ul>
-                                    <li><strong>Time:</strong> April 20th, 8 AM - 5 PM</li>
+                                    <li><strong>Time:</strong> April 20th, 8 AM - 6 PM</li>
                                     <li><strong>Location:</strong> <a href="https://www.google.com/maps/dir//Innovative+Learning+Classroom+Building+(ILCB),+215+Lamar+St,+College+Station,+TX+77844/@30.612059,-96.3856971,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x864683e0796a3d63:0xdd0440b15e5686a7!2m2!1d-96.3444972!2d30.6119916?entry=ttu">Innovative Learning Classroom Building (ILCB)</a></li>
                                 </ul>
                                 <p style="line-height: 20px; -webkit-font-smoothing: antialiased;
