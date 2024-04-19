@@ -45,7 +45,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                                     max-width: 500px;
                                     display: block;
                                     margin: 20px auto;">
-                                    <h2 style="margin-bottom: 20px; font-size: 16px; color: black">Thank You for Your Application to TAMU Datathon</h2>
+                                    <h2 style="margin-bottom: 20px; font-size: 16px; color: black">Thank You for Your Application to TAMU Datathon Lite</h2>
                                     <p style="line-height: 20px; -webkit-font-smoothing: antialiased;
                                         font-weight: normal;
                                         color: black;
@@ -87,7 +87,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                 const mailData = {
                     from: 'TAMU Datathon <connect@tamudatathon.com>',
                     to: data.email,
-                    subject: 'Application Status for TAMU Datathon 2023',
+                    subject: 'Application Status for TAMU Datathon 2024',
                     html: rejectionEmailContent,
                 };
 
@@ -109,7 +109,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
             res.status(500).json({ message: 'Error rejecting applicant', error });
         }
     } else {
-        res.status(401).json({ message: 'Unauthorized access: You are not an admin fucker.' });
+        res.status(401).json({ message: '\"I\'m admin! I\'m admin!\"\nNo you ain\'t.'});
     }
 }));
 
