@@ -37,7 +37,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                 const acceptanceEmailContent = `
                 <html>
                     <body>
-                        <div style="max-width:800px; background-color: #18125b; z-index: -1; position: absolute; top: 0; left: 0; padding: 20px">
+                        <div style="max-width:800px; background-color: #68d1ff; z-index: -1; position: absolute; top: 0; left: 0; padding: 20px">
                             <div style="font-family: 'Questrial', sans-serif;
                                 background: #fff;
                                 box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
