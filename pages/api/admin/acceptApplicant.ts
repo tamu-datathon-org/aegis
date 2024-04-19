@@ -46,7 +46,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                                 max-width: 500px;
                                 display: block;
                                 margin: 20px auto;">
-                                <h2 style="margin-bottom: 20px; font-size: 16px; color: black">Congratulations! You're Accepted to TAMU Datathon!</h2>
+                                <h2 style="margin-bottom: 20px; font-size: 16px; color: black">Congratulations! You're Accepted to TAMU Datathon Lite!</h2>
                                 <p style="line-height: 20px; -webkit-font-smoothing: antialiased;
                                     font-weight: normal;
                                     color: black;
@@ -56,22 +56,14 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                                     Here are some important details:
                                 </p>
                                 <ul>
-                                    <li><strong>Time:</strong> October 28th, 9 AM to October 29th, 5 PM</li>
-                                    <li><strong>Location:</strong> <a href="https://www.google.com/maps/place/Legends+Event+Center/@30.6423145,-96.3677204,17z/data=!3m1!4b1!4m6!3m5!1s0x864683a745942a83:0x2895eec5109df3bd!8m2!3d30.6423145!4d-96.3651455!16s%2Fg%2F11rkrx3r4c?entry=tts">Legends Event Center</a></li>
-                                    <li><strong>Address:</strong> 2533 Midtown Pk Blvd, Bryan, TX 77801 </li>
-                                    <li><strong>Theme:</strong> Origami</li>                          
+                                    <li><strong>Time:</strong> April 20th, 8 AM - 5 PM</li>
+                                    <li><strong>Location:</strong> <a href="https://www.google.com/maps/dir//Innovative+Learning+Classroom+Building+(ILCB),+215+Lamar+St,+College+Station,+TX+77844/@30.612059,-96.3856971,13z/data=!4m8!4m7!1m0!1m5!1m1!1s0x864683e0796a3d63:0xdd0440b15e5686a7!2m2!1d-96.3444972!2d30.6119916?entry=ttu">Innovative Learning Classroom Building (ILCB)</a></li>
                                 </ul>
                                 <p style="line-height: 20px; -webkit-font-smoothing: antialiased;
                                     font-weight: normal;
                                     color: black;
                                     margin-bottom: 20px;">
-                                    Please join our <a href="https://tamudatathon.com/guild">Discord</a> to receive updates for our event and find our carpool Discord channel!
-                                </p>
-                                <p style="line-height: 20px; -webkit-font-smoothing: antialiased;
-                                    font-weight: normal;
-                                    color: black;
-                                    margin-bottom: 20px;">
-                                    To encourage carpooling to the venue, we will give fast-passes for food and t-shirt lines at the event for drivers who carpool! If you're driving to the event, take a friend or two and cash in on these benefits! More details will be provided in the Discord soon.
+                                    Please join our <a href="https://tamudatathon.com/guild">Discord</a> to receive updates for our event!
                                 </p>
                                 <p style="line-height: 20px; -webkit-font-smoothing: antialiased;
                                     font-weight: normal;
@@ -111,7 +103,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                 const mailData = {
                     from: 'TAMU Datathon <connect@tamudatathon.com>',
                     to: data.email,
-                    subject: 'TAMU Datathon 2023 Application Accepted!',
+                    subject: 'TAMU Datathon 2024 Application Accepted!',
                     html: acceptanceEmailContent,
                     attachment: [qrCodeAttachment]
                 };
@@ -122,7 +114,7 @@ handler.post(authenticatedRoute(async (req: VercelRequest, res: VercelResponse, 
                 });
 
                 // Add the user to the mailing list
-                const mailingListAddress = '2023_accepted_applicants@mg.tamudatathon.com';
+                const mailingListAddress = '2024_accepted_applicants@mg.tamudatathon.com';
                 const member = {
                     subscribed: true,
                     address: data.email,
